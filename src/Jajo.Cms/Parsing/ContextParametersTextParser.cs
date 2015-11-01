@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Jajo.Cms.Rendering;
 using Jajo.Cms.Theme;
 
 namespace Jajo.Cms.Parsing
@@ -15,7 +16,7 @@ namespace Jajo.Cms.Parsing
             _findParameterValueFromModel = findParameterValueFromModel;
         }
 
-        protected override Task<object> FindParameterValue(Match match, ICmsContext context, ITheme theme)
+        protected override Task<object> FindParameterValue(Match match, ICmsRenderer cmsRenderer, ICmsContext context, ITheme theme)
         {
             var contextNameGroup = match.Groups["contextName"];
 

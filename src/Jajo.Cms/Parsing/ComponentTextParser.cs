@@ -12,16 +12,14 @@ namespace Jajo.Cms.Parsing
 {
     public class ComponentTextParser : RegexTextParser
     {
-        private readonly ICmsRenderer _cmsRenderer;
         private readonly IEnumerable<ICmsComponent> _components;
 
-        public ComponentTextParser(ICmsRenderer cmsRenderer, IEnumerable<ICmsComponent> components)
+        public ComponentTextParser(IEnumerable<ICmsComponent> components)
         {
-            _cmsRenderer = cmsRenderer;
             _components = components;
         }
 
-        protected override async Task<object> FindParameterValue(Match match, ICmsContext context, ITheme theme)
+        protected override async Task<object> FindParameterValue(Match match, ICmsRenderer cmsRenderer, ICmsContext context, ITheme theme)
         {
             var componentNameGroup = match.Groups["componentName"];
 
@@ -55,7 +53,7 @@ namespace Jajo.Cms.Parsing
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream);
 
-            var renderResult = await _cmsRenderer.RenderComponent(component, settings, context, theme);
+            var renderResult = await cmsRenderer.RenderComponent(component, settings, context, theme);
             await renderResult.RenderTo(writer);
 
             await writer.FlushAsync();

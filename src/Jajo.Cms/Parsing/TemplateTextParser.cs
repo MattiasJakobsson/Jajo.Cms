@@ -11,16 +11,14 @@ namespace Jajo.Cms.Parsing
 {
     public class TemplateTextParser : RegexTextParser
     {
-        private readonly ICmsRenderer _cmsRenderer;
         private readonly ITemplateStorage _templateStorage;
 
-        public TemplateTextParser(ICmsRenderer cmsRenderer, ITemplateStorage templateStorage)
+        public TemplateTextParser(ITemplateStorage templateStorage)
         {
-            _cmsRenderer = cmsRenderer;
             _templateStorage = templateStorage;
         }
 
-        protected override async Task<object> FindParameterValue(Match match, ICmsContext context, ITheme theme)
+        protected override async Task<object> FindParameterValue(Match match, ICmsRenderer cmsRenderer, ICmsContext context, ITheme theme)
         {
             var templateNameGroup = match.Groups["templateName"];
 
@@ -54,7 +52,7 @@ namespace Jajo.Cms.Parsing
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream);
 
-            var renderResult = await _cmsRenderer.RenderTemplate(template, settings, context, theme);
+            var renderResult = await cmsRenderer.RenderTemplate(template, settings, context, theme);
             await renderResult.RenderTo(writer);
 
             await writer.FlushAsync();

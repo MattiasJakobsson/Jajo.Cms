@@ -102,7 +102,7 @@ namespace Jajo.Cms.Rendering
         public async Task<IRenderResult> ParseText(string text, ICmsContext context, ITheme theme)
         {
             foreach (var textParser in _textParsers)
-                text = await textParser.Parse(text, context, theme);
+                text = await textParser.Parse(text, this, context, theme);
 
             return new RenderResult("text/html", x => x.WriteAsync(text), new Dictionary<Guid, IRequestContext>(), context);
         }
