@@ -75,6 +75,8 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="CmsContextRegistry.cs" />
+    <Compile Include="CmsFubuRegistry.cs" />
     <Compile Include="Endpoints\CmsEndpointWriter.cs" />
     <Compile Include="Endpoints\ConfigureEndpointBehaviorChain.cs" />
     <Compile Include="Features\ConfigureFeatureBehaviorChain.cs" />
