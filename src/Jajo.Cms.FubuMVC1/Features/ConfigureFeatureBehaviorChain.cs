@@ -1,5 +1,6 @@
 ﻿using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.Nodes;
+using Jajo.Cms.Features;
 
 namespace Jajo.Cms.FubuMVC1.Features
 {
@@ -9,7 +10,7 @@ namespace Jajo.Cms.FubuMVC1.Features
         {
             foreach (var behavior in graph.Behaviors)
             {
-                if (behavior.InputType() != null)
+                if (behavior.InputType() != null && typeof(IBelongToFeatures).IsAssignableFrom(behavior.InputType()))
                     behavior.Prepend(new Wrapper(typeof(EnsureFeatureIsEnabled<>).MakeGenericType(behavior.InputType())));
             }
         }
