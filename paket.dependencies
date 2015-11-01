@@ -3,7 +3,7 @@ source https://www.myget.org/F/jakobsson/api/v2
 
 nuget ImageProcessor
 nuget MarkdownSharp
-nuget Newtonsoft.Json
+nuget Newtonsoft.Json 6.0.8.0
 nuget Spark
 nuget UStack.Infrastructure.Web
 nuget structuremap 2.6.4.1

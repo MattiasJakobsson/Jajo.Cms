@@ -6,7 +6,7 @@ NUGET
     FluentValidation (5.6.2.0)
     ImageProcessor (2.3.0.0)
     MarkdownSharp (1.13.0.0)
-    Newtonsoft.Json (7.0.1)
+    Newtonsoft.Json (6.0.8.0)
     RavenDB.Client (3.0.3800)
     Spark (1.8.1.0)
     structuremap (2.6.4.1)
