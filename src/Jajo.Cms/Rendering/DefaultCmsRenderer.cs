@@ -24,10 +24,10 @@ namespace Jajo.Cms.Rendering
             _endpointConfigurationStorage = endpointConfigurationStorage;
         }
 
-        public async Task<IRenderResult> RenderEndpoint(ICmsEndpointInput input, ICmsContext context, ITheme theme)
+        public async Task<IRenderResult> RenderEndpoint<TInput>(TInput input, ICmsContext context, ITheme theme) where TInput : ICmsEndpointInput
         {
             var themeEndpoint = context
-                .Filter(_themeEndpoints.Where(x => typeof(ICmsEndpoint<>).MakeGenericType(input.GetType()).IsInstanceOfType(x)), theme)
+                .Filter(_themeEndpoints.OfType<ICmsEndpoint<TInput>>(), theme)
                 .FirstOrDefault();
 
             if (themeEndpoint == null)
@@ -42,7 +42,7 @@ namespace Jajo.Cms.Rendering
                     settings[item.Key] = item.Value;
             }
 
-            var renderInformation = await themeEndpoint.Render(context, settings);
+            var renderInformation = await themeEndpoint.Render(input, context, settings);
 
             if (renderInformation == null)
                 return new RenderResult("text/plain", x => Task.CompletedTask, new Dictionary<Guid, IRequestContext>(), context);

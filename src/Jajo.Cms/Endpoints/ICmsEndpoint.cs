@@ -7,13 +7,12 @@ namespace Jajo.Cms.Endpoints
     public interface ICmsEndpoint
     {
         string GetName();
-        Task<IRenderInformation> Render(ICmsContext context, IDictionary<string, object> settings);
         IDictionary<string, object> GetDefaultSettings();
     }
 
-    public interface ICmsEndpoint<TInput> : ICmsEndpoint
+    public interface ICmsEndpoint<in TInput> : ICmsEndpoint
         where TInput : ICmsEndpointInput
     {
-         
+        Task<IRenderInformation> Render(TInput input, ICmsContext context, IDictionary<string, object> settings);
     }
 }
