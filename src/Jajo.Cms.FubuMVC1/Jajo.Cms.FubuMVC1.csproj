@@ -96,6 +96,7 @@
     <Compile Include="Views\FubuSparkCmsViewEngine.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".package-manifest" />
     <None Include="Menu\BreadCrumbs.spark" />
     <None Include="Menu\Menu.spark" />
     <None Include="paket.references" />
