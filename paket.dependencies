@@ -6,3 +6,4 @@ nuget MarkdownSharp
 nuget Newtonsoft.Json
 nuget Spark
 nuget UStack.Infrastructure.Web
+nuget structuremap 2.6.4.1
