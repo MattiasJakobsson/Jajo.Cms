@@ -71,6 +71,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Endpoints\CmsEndpointWriter.cs" />
     <Compile Include="Endpoints\ConfigureEndpointBehaviorChain.cs" />
     <Compile Include="Features\ConfigureFeatureBehaviorChain.cs" />
