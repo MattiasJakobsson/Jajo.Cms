@@ -75,6 +75,7 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="CmsFubuPageExtensions.cs" />
     <Compile Include="ConfigureWidgetBehaviorChain.cs" />
     <Compile Include="SetContexts.cs" />
     <Compile Include="CmsContextRegistry.cs" />
