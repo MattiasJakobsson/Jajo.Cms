@@ -10,7 +10,7 @@ namespace Jajo.Cms.FubuMVC1.Endpoints
             registry.Policies.Add(x =>
             {
                 x.Where.ResourceTypeImplements<ICmsEndpointInput>();
-                x.ModifyBy(y => y.Output.AddWriter<CmsEndpointWriter>());
+                x.ModifyBy(y => y.Output.AddWriter(typeof(CmsEndpointWriter<>).MakeGenericType(y.ResourceType())));
             });
         }
     }

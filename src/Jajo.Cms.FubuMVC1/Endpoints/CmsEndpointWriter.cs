@@ -8,7 +8,7 @@ using Jajo.Cms.Theme;
 
 namespace Jajo.Cms.FubuMVC1.Endpoints
 {
-    public class CmsEndpointWriter : IMediaWriter<ICmsEndpointInput>
+    public class CmsEndpointWriter<T> : IMediaWriter<T> where T : ICmsEndpointInput
     {
         private readonly IOutputWriter _writer;
         private readonly ICmsRenderer _cmsRenderer;
@@ -31,7 +31,7 @@ namespace Jajo.Cms.FubuMVC1.Endpoints
             }
         }
 
-        public void Write(string mimeType, ICmsEndpointInput resource)
+        public void Write(string mimeType, T resource)
         {
             var renderResult = _cmsRenderer.RenderEndpoint(resource, _cmsContext, _theme).Result;
 
