@@ -44,6 +44,7 @@
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Cache.cs" />
+    <Compile Include="ISupplyContext.cs" />
     <Compile Include="CmsContextExtensions.cs" />
     <Compile Include="Components\ComponentSettingsContext.cs" />
     <Compile Include="Components\ICmsComponent.cs" />

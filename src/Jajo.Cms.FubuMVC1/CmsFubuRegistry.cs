@@ -32,6 +32,8 @@ namespace Jajo.Cms.FubuMVC1
 
                 x.SetServiceIfNone<ICmsRenderer, DefaultCmsRenderer>();
             });
+
+            registry.Policies.Add<ConfigureWidgetBehaviorChain>();
         }
     }
 }
