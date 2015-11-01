@@ -1,5 +1,25 @@
 NUGET
   remote: https://nuget.org/api/v2
   specs:
+    BCrypt.Net (0.1.0)
+    FluentValidation (5.6.2.0)
+    ImageProcessor (2.3.0.0)
     MarkdownSharp (1.13.0.0)
     Newtonsoft.Json (7.0.1)
+    RavenDB.Client (3.0.3800)
+    Spark (1.8.1.0)
+    structuremap (3.1.6.186)
+  remote: https://www.myget.org/F/jakobsson/api/v2
+  specs:
+    UStack.Infrastructure (0.0.0.406)
+      BCrypt.Net
+      UStack.RequestGraph
+    UStack.Infrastructure.RavenDB (0.0.0.406)
+      RavenDB.Client
+      UStack.Infrastructure
+      structuremap
+    UStack.Infrastructure.Web (0.0.0.406)
+      FluentValidation
+      UStack.Infrastructure.RavenDB
+      UStack.RequestGraph
+    UStack.RequestGraph (0.0.0.406)

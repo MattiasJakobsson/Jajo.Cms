@@ -43,6 +43,7 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Cache.cs" />
     <Compile Include="Components\ComponentSettingsContext.cs" />
     <Compile Include="Components\ICmsComponent.cs" />
     <Compile Include="DefaultCmsContext.cs" />
@@ -51,6 +52,12 @@
     <Compile Include="Endpoints\IEndpointConfigurationStorage.cs" />
     <Compile Include="Features\IBelongToFeatures.cs" />
     <Compile Include="Features\IFeatureValidator.cs" />
+    <Compile Include="Files\ITransformFiles.cs" />
+    <Compile Include="Files\ITransformationSetting.cs" />
+    <Compile Include="Files\IUploadFiles.cs" />
+    <Compile Include="Files\MaxHeightTransformationSetting.cs" />
+    <Compile Include="Files\MaxWidthTransformationSetting.cs" />
+    <Compile Include="Files\UploadFile.cs" />
     <Compile Include="ICmsContext.cs" />
     <Compile Include="IRequestContext.cs" />
     <Compile Include="Parsing\ComponentTextParser.cs" />
@@ -69,6 +76,7 @@
     <Compile Include="Rendering\ICmsRenderer.cs" />
     <Compile Include="Rendering\IRenderInformation.cs" />
     <Compile Include="IRequireContexts.cs" />
+    <Compile Include="Rendering\IRenderResult.cs" />
     <Compile Include="Rendering\RenderTemplateRenderInformation.cs" />
     <Compile Include="Rendering\RenderTextRenderInformation.cs" />
     <Compile Include="Rendering\TemplateRenderInformation.cs" />
@@ -80,6 +88,10 @@
     <Compile Include="Theme\ITheme.cs" />
     <Compile Include="Endpoints\ICmsEndpoint.cs" />
     <Compile Include="Endpoints\ICmsEndpointInput.cs" />
+    <Compile Include="Views\CmsView.cs" />
+    <Compile Include="Views\ICmsViewEngine.cs" />
+    <Compile Include="Views\RenderViewRenderInformation.cs" />
+    <Compile Include="Views\ViewRenderInformation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="paket.references" />

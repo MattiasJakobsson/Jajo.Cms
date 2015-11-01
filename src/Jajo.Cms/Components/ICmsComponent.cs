@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Jajo.Cms.Rendering;
 
 namespace Jajo.Cms.Components
@@ -8,7 +9,7 @@ namespace Jajo.Cms.Components
         string Name { get; }
         string Category { get; }
 
-        IRenderInformation Render(ICmsContext context, IDictionary<string, object> settings);
+        Task<IRenderInformation> Render(ICmsContext context, IDictionary<string, object> settings);
         IDictionary<string, object> GetDefaultSettings();
     }
 }

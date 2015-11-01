@@ -24,17 +24,17 @@ namespace Jajo.Cms.Rendering
             _endpointConfigurationStorage = endpointConfigurationStorage;
         }
 
-        public async Task RenderEndpoint(ICmsEndpointInput input, ICmsContext context, ITheme theme, TextWriter renderTo)
+        public async Task<IRenderResult> RenderEndpoint(ICmsEndpointInput input, ICmsContext context, ITheme theme)
         {
             var themeEndpoint = context
                 .Filter(_themeEndpoints.Where(x => typeof(ICmsEndpoint<>).MakeGenericType(input.GetType()).IsInstanceOfType(x)), theme)
                 .FirstOrDefault();
 
             if (themeEndpoint == null)
-                return;
+                return new RenderResult("text/plain", x => Task.CompletedTask, new Dictionary<Guid, IRequestContext>(), context);
 
             var settings = themeEndpoint.GetDefaultSettings();
-            var endpointConfiguration = _endpointConfigurationStorage.Load(theme.GetName(), theme);
+            var endpointConfiguration = await _endpointConfigurationStorage.Load(theme.GetName(), theme);
 
             if (endpointConfiguration != null)
             {
@@ -42,81 +42,69 @@ namespace Jajo.Cms.Rendering
                     settings[item.Key] = item.Value;
             }
 
-            var renderInformation = themeEndpoint.Render(context, settings);
+            var renderInformation = await themeEndpoint.Render(context, settings);
 
             if (renderInformation == null)
-                return;
+                return new RenderResult("text/plain", x => Task.CompletedTask, new Dictionary<Guid, IRequestContext>(), context);
 
             var contexts = renderInformation.Contexts.ToDictionary(x => Guid.NewGuid(), x => x);
+            contexts[Guid.NewGuid()] = new EndpointSettingsContext(settings);
 
-            foreach (var item in contexts)
-                context.EnterContext(item.Key, item.Value);
+            return new RenderResult(renderInformation.ContentType, x =>
+            {
+                var renderer = (IRenderer)context.Resolve(typeof(Renderer<>).MakeGenericType(renderInformation.GetType()));
 
-            var settingsContextId = Guid.NewGuid();
-            context.EnterContext(settingsContextId, new EndpointSettingsContext(settings));
-
-            var renderer = (IRenderer)context.Resolve(typeof(Renderer<>).MakeGenericType(renderInformation.GetType()));
-
-            await renderer.Render(renderInformation, context, theme, renderTo);
-
-            context.ExitContext(settingsContextId);
-
-            foreach (var item in contexts)
-                context.ExitContext(item.Key);
+                return renderer.Render(renderInformation, context, theme, x);
+            }, contexts, context);
         }
 
-        public async Task RenderComponent(ICmsComponent component, IDictionary<string, object> settings, ICmsContext context, ITheme theme, TextWriter renderTo)
+        public async Task<IRenderResult> RenderComponent(ICmsComponent component, IDictionary<string, object> settings, ICmsContext context, ITheme theme)
         {
             if (!context.CanRender(component, theme))
-                return;
+                return new RenderResult("text/plain", x => Task.CompletedTask, new Dictionary<Guid, IRequestContext>(), context);
 
-            var renderInformation = component.Render(context, settings);
+            var renderInformation = await component.Render(context, settings);
 
             if (renderInformation == null)
-                return;
+                return new RenderResult("text/plain", x => Task.CompletedTask, new Dictionary<Guid, IRequestContext>(), context);
 
             var contexts = renderInformation.Contexts.ToDictionary(x => Guid.NewGuid(), x => x);
+            contexts[Guid.NewGuid()] = new ComponentSettingsContext(settings);
 
-            foreach (var item in contexts)
-                context.EnterContext(item.Key, item.Value);
+            return new RenderResult(renderInformation.ContentType, x =>
+            {
+                var renderer = (IRenderer)context.Resolve(typeof(Renderer<>).MakeGenericType(renderInformation.GetType()));
 
-            var settingsContextId = Guid.NewGuid();
-            context.EnterContext(settingsContextId, new ComponentSettingsContext(settings));
-
-            var renderer = (IRenderer)context.Resolve(typeof(Renderer<>).MakeGenericType(renderInformation.GetType()));
-
-            await renderer.Render(renderInformation, context, theme, renderTo);
-
-            context.ExitContext(settingsContextId);
-
-            foreach (var item in contexts)
-                context.ExitContext(item.Key);
+                return renderer.Render(renderInformation, context, theme, x);
+            }, contexts, context);
         }
 
-        public async Task RenderTemplate(CmsTemplate template, IDictionary<string, object> settings, ICmsContext context, ITheme theme, TextWriter renderTo)
+        public async Task<IRenderResult> RenderTemplate(CmsTemplate template, IDictionary<string, object> settings, ICmsContext context, ITheme theme)
         {
             if (!context.CanRender(template, theme))
-                return;
+                return new RenderResult("text/plain", x => Task.CompletedTask, new Dictionary<Guid, IRequestContext>(), context);
 
             var templateSettings = template.Settings.ToDictionary(x => x.Key, x => x.Value);
 
             foreach (var item in settings)
                 templateSettings[item.Key] = item.Value;
 
-            var contextId = Guid.NewGuid();
-            context.EnterContext(contextId, new TemplateSettingsContext(templateSettings));
+            var contexts = new Dictionary<Guid, IRequestContext>
+            {
+                {Guid.NewGuid(), new TemplateSettingsContext(templateSettings)}
+            };
 
-            await ParseText(template.Body, context, theme, renderTo);
+            var result = await ParseText(template.Body, context, theme);
 
-            context.ExitContext(contextId);
+            return new RenderResult(string.IsNullOrEmpty(template.ContentType) ? result.ContentType : template.ContentType, x => result.RenderTo(x), contexts, context);
         }
 
-        public async Task ParseText(string text, ICmsContext context, ITheme theme, TextWriter renderTo)
+        public async Task<IRenderResult> ParseText(string text, ICmsContext context, ITheme theme)
         {
             foreach (var textParser in _textParsers)
                 text = await textParser.Parse(text, context, theme);
 
-            renderTo.Write(text);
+            return new RenderResult("text/html", x => x.WriteAsync(text), new Dictionary<Guid, IRequestContext>(), context);
         }
 
         private interface IRenderer
@@ -136,6 +124,34 @@ namespace Jajo.Cms.Rendering
             public Task Render(IRenderInformation information, ICmsContext context, ITheme theme, TextWriter renderTo)
             {
                 return _renderer.Render((TRenderInformation)information, context, theme, renderTo);
+            }
+        }
+
+        private class RenderResult : IRenderResult
+        {
+            private readonly Func<TextWriter, Task> _render;
+            private readonly IDictionary<Guid, IRequestContext> _requestContexts;
+            private readonly ICmsContext _cmsContext;
+
+            public RenderResult(string contentType, Func<TextWriter, Task> render, IDictionary<Guid, IRequestContext> requestContexts, ICmsContext cmsContext)
+            {
+                ContentType = contentType;
+                _render = render;
+                _requestContexts = requestContexts;
+                _cmsContext = cmsContext;
+            }
+
+            public string ContentType { get; private set; }
+
+            public async Task RenderTo(TextWriter writer)
+            {
+                foreach (var context in _requestContexts)
+                    _cmsContext.EnterContext(context.Key, context.Value);
+
+                await _render(writer);
+
+                foreach (var context in _requestContexts)
+                    _cmsContext.ExitContext(context.Key);
             }
         }
     }

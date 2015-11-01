@@ -4,6 +4,7 @@ namespace Jajo.Cms.Rendering
 {
     public interface IRenderInformation
     {
-         IEnumerable<IRequestContext> Contexts { get; }
+        string ContentType { get; }
+        IEnumerable<IRequestContext> Contexts { get; }
     }
 }

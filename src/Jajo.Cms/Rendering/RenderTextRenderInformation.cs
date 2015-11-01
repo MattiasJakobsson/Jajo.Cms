@@ -13,9 +13,10 @@ namespace Jajo.Cms.Rendering
             _cmsRenderer = cmsRenderer;
         }
 
-        public Task Render(TextRenderInformation information, ICmsContext context, ITheme theme, TextWriter renderTo)
+        public async Task Render(TextRenderInformation information, ICmsContext context, ITheme theme, TextWriter renderTo)
         {
-            return _cmsRenderer.ParseText(information.Text, context, theme, renderTo);
+            var result = await _cmsRenderer.ParseText(information.Text, context, theme);
+            await result.RenderTo(renderTo);
         }
     }
 }

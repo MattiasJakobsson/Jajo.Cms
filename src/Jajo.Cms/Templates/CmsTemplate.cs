@@ -9,6 +9,7 @@ namespace Jajo.Cms.Templates
         public string Name { get; set; }
         public string Body { get; set; }
         public string Category { get; set; }
+        public string ContentType { get; set; }
         public IEnumerable<Type> RequiredContexts { get; set; }
         public Type ForTheme { get; set; }
         public IDictionary<string, object> Settings { get; set; }

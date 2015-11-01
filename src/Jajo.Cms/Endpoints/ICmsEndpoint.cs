@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Jajo.Cms.Rendering;
 
 namespace Jajo.Cms.Endpoints
@@ -6,7 +7,7 @@ namespace Jajo.Cms.Endpoints
     public interface ICmsEndpoint
     {
         string GetName();
-        IRenderInformation Render(ICmsContext context, IDictionary<string, object> settings);
+        Task<IRenderInformation> Render(ICmsContext context, IDictionary<string, object> settings);
         IDictionary<string, object> GetDefaultSettings();
     }
 

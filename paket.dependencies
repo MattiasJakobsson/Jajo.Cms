@@ -1,4 +1,8 @@
 source https://nuget.org/api/v2
+source https://www.myget.org/F/jakobsson/api/v2
 
+nuget ImageProcessor
 nuget MarkdownSharp
 nuget Newtonsoft.Json
+nuget Spark
+nuget UStack.Infrastructure.Web

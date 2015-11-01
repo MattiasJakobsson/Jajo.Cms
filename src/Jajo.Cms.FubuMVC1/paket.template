@@ -1,0 +1,12 @@
+﻿type file
+id Jajo.Cms.FubuMVC1
+version 1.0
+authors Mattias Jakobsson
+description
+        Jajo Cms
+files
+    bin/Release/Jajo.Cms.FubuMVC1.dll ==> lib
+dependencies
+	Jajo.Cms
+	UStack.Infrastructure.Web
+	ImageProcessor

@@ -55,7 +55,8 @@ namespace Jajo.Cms.Parsing
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream);
 
-            await _cmsRenderer.RenderComponent(component, settings, context, theme, writer);
+            var renderResult = await _cmsRenderer.RenderComponent(component, settings, context, theme);
+            await renderResult.RenderTo(writer);
 
             await writer.FlushAsync();
             stream.Position = 0;

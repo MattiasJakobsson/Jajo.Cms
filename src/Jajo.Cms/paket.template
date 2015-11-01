@@ -8,3 +8,4 @@ files
     bin/Release/Jajo.Cms.dll ==> lib
 dependencies
 	MarkdownSharp
+	Newtonsoft.Json
