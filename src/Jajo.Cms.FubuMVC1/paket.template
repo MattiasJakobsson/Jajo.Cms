@@ -10,3 +10,4 @@ dependencies
 	Jajo.Cms
 	UStack.Infrastructure.Web
 	ImageProcessor
+	Spark
