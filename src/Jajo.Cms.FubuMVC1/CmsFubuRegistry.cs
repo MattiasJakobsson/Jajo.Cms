@@ -24,7 +24,6 @@ namespace Jajo.Cms.FubuMVC1
                     y.Applies.ToAssemblyContainingType<ICmsEndpoint>();
 
                     y.AddAllTypesOf<ICmsComponent>();
-                    y.AddAllTypesOf<ICmsEndpointInput>();
                     y.AddAllTypesOf<ICmsEndpoint>();
                     y.AddAllTypesOf<ITheme>();
                     y.AddAllTypesOf<ICmsViewEngine>();
