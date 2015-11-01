@@ -21,3 +21,4 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("969d4172-45a1-4698-8cc8-d07cfcf04887")]
+[assembly: FubuMVC.Core.FubuModule]
