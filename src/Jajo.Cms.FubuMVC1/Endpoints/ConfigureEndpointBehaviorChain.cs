@@ -7,6 +7,8 @@ namespace Jajo.Cms.FubuMVC1.Endpoints
     {
         public void Configure(FubuRegistry registry)
         {
+            registry.Services(x => x.SetServiceIfNone<IEndpointConfigurationStorage, DefaultEndpointConfigurationStorage>());
+
             registry.Policies.Add(x =>
             {
                 x.Where.ResourceTypeImplements<ICmsEndpointInput>();

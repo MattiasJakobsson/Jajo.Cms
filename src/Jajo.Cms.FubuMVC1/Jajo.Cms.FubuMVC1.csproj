@@ -77,6 +77,8 @@
     </Compile>
     <Compile Include="CmsFubuPageExtensions.cs" />
     <Compile Include="ConfigureWidgetBehaviorChain.cs" />
+    <Compile Include="DefaultTemplateStorage.cs" />
+    <Compile Include="Endpoints\DefaultEndpointConfigurationStorage.cs" />
     <Compile Include="SetContexts.cs" />
     <Compile Include="CmsContextRegistry.cs" />
     <Compile Include="CmsFubuRegistry.cs" />
