@@ -7,7 +7,7 @@ namespace Jajo.Cms.FubuMVC1
     {
         public CmsContextRegistry()
         {
-            For<ICmsContext>().Use(x => new DefaultCmsContext(x.GetInstance, x.GetInstance<IFeatureValidator>()));
+            For<ICmsContext>().Use(x => new DefaultCmsContext(x.GetInstance, x.GetInstance<IFeatureValidator>(), x.GetInstance<IThemeSettings>().GetCurrentTheme()));
         } 
     }
 }

@@ -13,10 +13,11 @@ namespace Jajo.Cms.FubuMVC1
         public static IHtmlString Component(this IFubuPage page, ICmsComponent component, IDictionary<string, object> settings = null, ITheme theme = null)
         {
             var cmsRenderer = page.ServiceLocator.GetInstance<ICmsRenderer>();
+            var cmsContext = page.ServiceLocator.GetInstance<ICmsContext>();
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream);
 
-            var result = cmsRenderer.RenderComponent(component, settings ?? new Dictionary<string, object>(), page.ServiceLocator.GetInstance<ICmsContext>(), theme ?? page.ServiceLocator.GetInstance<ITheme>()).Result;
+            var result = cmsRenderer.RenderComponent(component, settings ?? new Dictionary<string, object>(), page.ServiceLocator.GetInstance<ICmsContext>(), theme ?? cmsContext.GetCurrentTheme()).Result;
 
             result.RenderTo(writer).Wait();
             writer.Flush();
