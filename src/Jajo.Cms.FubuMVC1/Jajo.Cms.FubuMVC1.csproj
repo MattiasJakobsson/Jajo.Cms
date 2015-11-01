@@ -64,6 +64,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -81,10 +82,22 @@
     <Compile Include="Features\EnsureFeatureIsEnabled.cs" />
     <Compile Include="Files\FilesRegistry.cs" />
     <Compile Include="Files\DefaultFileUploader.cs" />
+    <Compile Include="Menu\BreadCrumbsEndpoint.cs" />
+    <Compile Include="Menu\BreadCrumbsExtensions.cs" />
+    <Compile Include="Menu\BreadCrumbsRegistration.cs" />
+    <Compile Include="Menu\RegisterMenuRoutes.cs" />
+    <Compile Include="Menu\MenuPackageRegistry.cs" />
+    <Compile Include="Menu\MenuExtensions.cs" />
+    <Compile Include="Menu\MenuEndpoint.cs" />
+    <Compile Include="Menu\DefaultMenuBuilder.cs" />
+    <Compile Include="Menu\DefaultBreadCrumbsFinder.cs" />
+    <Compile Include="Menu\DefaultMenuContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\FubuSparkCmsViewEngine.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Menu\BreadCrumbs.spark" />
+    <None Include="Menu\Menu.spark" />
     <None Include="paket.references" />
     <None Include="paket.template" />
   </ItemGroup>

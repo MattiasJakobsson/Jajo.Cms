@@ -1,0 +1,37 @@
+﻿<viewdata model="Jajo.Cms.Web.Menu.MenuEndpointQueryResult" />
+
+<ul class="nav navbar-collapse collapse navbar-collapse-primary">
+    <li each="var item in Model.Menu.MenuItems" class="active?{item.Active} dark-nav?{item.HasChildren()}">
+        <span class="glow"></span>
+        <a if="item.LinkTo != null" href="!{Urls.UrlFor(item.LinkTo)}">
+            <i class="icon-!{item.Icon} icon-2x" if="!string.IsNullOrEmpty(item.Icon)"></i>
+            <span>
+                ${item.Title}
+                <i if="item.HasChildren()" class="icon-caret-down"></i>
+            </span>
+        </a>
+        <else>
+            <a href="#!{item.UniqueId}" class="accordion-toggle" data-toggle="collapse">
+                <i class="icon-!{item.Icon} icon-2x" if="!string.IsNullOrEmpty(item.Icon)"></i>
+                <span>
+                    ${item.Title}
+                    <i if="item.HasChildren()" class="icon-caret-down"></i>
+                </span>
+            </a>
+        </else>
+        <ul if="item.HasChildren()" class="collapse in?{item.Active}" id="!{item.UniqueId}">
+            <li class="active?{child.Active}" each="var child in item.Children">
+                <a if="child.LinkTo != null" href="!{Urls.UrlFor(child.LinkTo)}">
+                    <i class="icon-!{child.Icon}" if="!string.IsNullOrEmpty(child.Icon)"></i>
+                    ${child.Title}
+                </a>
+                <else>
+                    <a href="#">
+                        <i class="icon-!{child.Icon}" if="!string.IsNullOrEmpty(child.Icon)"></i>
+                        ${child.Title}
+                    </a>
+                </else>
+            </li>
+        </ul>
+    </li>
+</ul>

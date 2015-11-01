@@ -1,0 +1,19 @@
+﻿<viewdata model="Jajo.Cms.FubuMVC1.Manu.BreadCrumbsEndpointQueryResult" />
+
+<div id="breadcrumbs">
+    <div class="breadcrumb-button blue?{breadCrumbIndex == 0}" each="var breadCrumb in Model.BreadCrumbs">
+        <span class="breadcrumb-label">
+            <a if="breadCrumb.LinkTo != null" href="!{Urls.UrlFor(breadCrumb.LinkTo)}">
+                <i class="icon-!{breadCrumb.Icon}" if="!string.IsNullOrEmpty(breadCrumb.Icon)"></i>
+                !{breadCrumb.LinkText}
+            </a>
+            <else>
+                <i class="icon-!{breadCrumb.Icon}" if="!string.IsNullOrEmpty(breadCrumb.Icon)"></i>
+                !{breadCrumb.LinkText}
+            </else>
+        </span>
+        <span class="breadcrumb-arrow">
+            <span></span>
+        </span>
+    </div>
+</div>
