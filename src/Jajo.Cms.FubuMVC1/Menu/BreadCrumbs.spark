@@ -1,4 +1,4 @@
-﻿<viewdata model="Jajo.Cms.FubuMVC1.Manu.BreadCrumbsEndpointQueryResult" />
+﻿<viewdata model="Jajo.Cms.FubuMVC1.Menu.BreadCrumbsEndpointQueryResult" />
 
 <div id="breadcrumbs">
     <div class="breadcrumb-button blue?{breadCrumbIndex == 0}" each="var breadCrumb in Model.BreadCrumbs">
