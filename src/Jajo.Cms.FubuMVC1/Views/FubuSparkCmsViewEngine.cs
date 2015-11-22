@@ -64,6 +64,9 @@ namespace Jajo.Cms.FubuMVC1.Views
             if (descriptor == null)
                 return null;
 
+            if (_chains.IsInPartial() || _headers.IsAjaxRequest())
+                descriptor.Master = null;
+
             var sparkViewDescriptor = descriptor.ToSparkViewDescriptor();
 
             return _viewEngine.CreateEntry(sparkViewDescriptor);
