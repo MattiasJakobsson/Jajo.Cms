@@ -26,13 +26,17 @@ task :paket_bootstrap do
   system 'tools/paket.bootstrapper.exe', clr_command: true unless File.exists? 'tools/paket.exe'
 end
 
+task :bottle_fubu do
+  system 'tools/bottles/bottles.exe', 'assembly-pak', 'src\Jajo.Cms.FubuMVC1'
+end
+
 desc 'restore all nugets as per the packages.config files'
 task :restore => :paket_bootstrap do
   system 'tools/paket.exe', 'restore', clr_command: true
 end
 
 desc 'Perform full build'
-build :compile => [:versioning, :restore, :asmver] do |b|
+build :compile => [:versioning, :restore, :asmver, :bottle_fubu] do |b|
   b.prop 'Configuration', Configuration
   b.sln = 'src/Jajo.Cms.sln'
 end
