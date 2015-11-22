@@ -17,16 +17,16 @@ namespace Jajo.Cms.FubuMVC1.Views
         private readonly IRequestHeaders _headers;
         private readonly ICurrentChain _chains;
         private readonly ISparkTemplateRegistry _sparkTemplateRegistry;
-        private readonly ISparkViewEngine _viewEngine;
         private readonly IServiceLocator _services;
+        private readonly IViewEntryProviderCache _viewEntryProviderCache;
 
-        public FubuSparkCmsViewEngine(IRequestHeaders headers, ICurrentChain chains, ISparkTemplateRegistry sparkTemplateRegistry, ISparkViewEngine viewEngine, IServiceLocator services)
+        public FubuSparkCmsViewEngine(IRequestHeaders headers, ICurrentChain chains, ISparkTemplateRegistry sparkTemplateRegistry, IServiceLocator services, IViewEntryProviderCache viewEntryProviderCache)
         {
             _headers = headers;
             _chains = chains;
             _sparkTemplateRegistry = sparkTemplateRegistry;
-            _viewEngine = viewEngine;
             _services = services;
+            _viewEntryProviderCache = viewEntryProviderCache;
         }
 
         public CmsView FindView<TModel>(string viewName, TModel model, ITheme theme, IEnumerable<IRequestContext> contexts) where TModel : class
@@ -62,7 +62,7 @@ namespace Jajo.Cms.FubuMVC1.Views
 
             var sparkViewDescriptor = descriptor.ToSparkViewDescriptor();
 
-            return _viewEngine.CreateEntry(sparkViewDescriptor);
+            return _viewEntryProviderCache.GetViewEntry(sparkViewDescriptor);
         }
 
         private void SetModel<TModel>(TModel model, ISparkView view) where TModel : class
