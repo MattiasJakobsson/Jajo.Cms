@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Role>module</Role>
-  <Name>UStack.Cms.Web</Name>
-  <assembly>UStack.Cms.Web</assembly>
+  <Name>Jajo.Cms.FubuMVC1</Name>
+  <assembly>Jajo.Cms.FubuMVC1</assembly>
   <ContentFileSet Include="*.spark;Shared/*.xml;content\*.*;*.config;">
     <DeepSearch>true</DeepSearch>
   </ContentFileSet>
