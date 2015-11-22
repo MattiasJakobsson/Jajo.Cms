@@ -30,10 +30,13 @@ namespace Jajo.Cms.Views
 
         private static CmsView FindViewFrom(ICmsViewEngine viewEngine, string viewName, object model, ITheme theme, IEnumerable<IRequestContext> contexts)
         {
-            return (CmsView)viewEngine
+            var findViewMethod = viewEngine
                 .GetType()
-                .GetMethod("FindView", new[] { typeof(string), model.GetType(), typeof(ITheme), typeof(IEnumerable<IRequestContext>) }).MakeGenericMethod(model.GetType())
-                .Invoke(viewEngine, new[] { viewName, model, theme, contexts });
+                .GetMethod("FindView");
+
+            var genericFindViewMethod = findViewMethod.MakeGenericMethod(model.GetType());
+
+            return (CmsView)genericFindViewMethod.Invoke(viewEngine, new[] { viewName, model, theme, contexts });
         }
     }
 }
