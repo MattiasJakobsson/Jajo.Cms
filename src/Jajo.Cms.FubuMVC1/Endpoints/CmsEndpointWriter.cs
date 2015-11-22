@@ -32,7 +32,14 @@ namespace Jajo.Cms.FubuMVC1.Endpoints
         {
             var renderResult = _cmsRenderer.RenderEndpoint(resource, _cmsContext, _cmsContext.GetCurrentTheme()).Result;
 
-            _writer.Write(renderResult.ContentType, x => renderResult.RenderTo(new StreamWriter(x)).Wait());
+            _writer.Write(renderResult.ContentType, x =>
+            {
+                var writer = new StreamWriter(x);
+
+                renderResult.RenderTo(writer).Wait();
+
+                writer.Flush();
+            });
         }
     }
 }
