@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using FubuCore;
 using FubuMVC.Core.Runtime;
 using Jajo.Cms.Menu;
@@ -10,11 +11,13 @@ namespace Jajo.Cms.FubuMVC1.Menu
     {
         private readonly IFubuRequest _fubuRequest;
         private readonly IServiceLocator _serviceLocator;
+        private readonly ICmsContext _cmsContext;
 
-        public DefaultBreadCrumbsFinder(IFubuRequest fubuRequest, IServiceLocator serviceLocator)
+        public DefaultBreadCrumbsFinder(IFubuRequest fubuRequest, IServiceLocator serviceLocator, ICmsContext cmsContext)
         {
             _fubuRequest = fubuRequest;
             _serviceLocator = serviceLocator;
+            _cmsContext = cmsContext;
         }
 
         public IEnumerable<BreadCrumb> Get(object input)
@@ -36,6 +39,8 @@ namespace Jajo.Cms.FubuMVC1.Menu
             }
 
             breadCrumbs.Reverse();
+
+            breadCrumbs = _cmsContext.Filter(breadCrumbs, _cmsContext.GetCurrentTheme()).ToList();
 
             return new ReadOnlyCollection<BreadCrumb>(breadCrumbs);
         }

@@ -15,14 +15,16 @@ namespace Jajo.Cms.FubuMVC1.Menu
         private readonly IValidateSecurity _validateSecurity;
         private readonly IEnumerable<IBuildMenuTree> _buildMenuTrees;
         private readonly IFindBreadCrumbsFor _findBreadCrumbsFor;
+        private readonly ICmsContext _cmsContext;
 
-        public DefaultMenuBuilder(IContainer container, IServiceLocator serviceLocator, IValidateSecurity validateSecurity, IEnumerable<IBuildMenuTree> buildMenuTrees, IFindBreadCrumbsFor findBreadCrumbsFor)
+        public DefaultMenuBuilder(IContainer container, IServiceLocator serviceLocator, IValidateSecurity validateSecurity, IEnumerable<IBuildMenuTree> buildMenuTrees, IFindBreadCrumbsFor findBreadCrumbsFor, ICmsContext cmsContext)
         {
             _container = container;
             _serviceLocator = serviceLocator;
             _validateSecurity = validateSecurity;
             _buildMenuTrees = buildMenuTrees;
             _findBreadCrumbsFor = findBreadCrumbsFor;
+            _cmsContext = cmsContext;
         }
 
         public Cms.Menu.Menu Build(string name, object currentInput)
@@ -53,6 +55,9 @@ namespace Jajo.Cms.FubuMVC1.Menu
         {
             if (input == null)
                 return true;
+
+            if (!_cmsContext.CanRender(input, _cmsContext.GetCurrentTheme()))
+                return false;
 
             var ensureExists = _container.GetAllInstances(typeof(IEnsureExists<>).MakeGenericType(input.GetType())).OfType<object>().ToList();
 
