@@ -52,10 +52,7 @@ namespace Jajo.Cms.FubuMVC1.Views
             if (descriptor == null)
                 return null;
 
-            if (!useMaster)
-                descriptor.Master = null;
-
-            var sparkViewDescriptor = descriptor.ToSparkViewDescriptor();
+            var sparkViewDescriptor = useMaster ? descriptor.ToSparkViewDescriptor() : descriptor.ToPartialSparkViewDescriptor();
 
             return _viewEntryProviderCache.GetViewEntry(sparkViewDescriptor);
         }
