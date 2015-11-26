@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FubuCore;
-using FubuMVC.Core.Http;
 using FubuMVC.Spark.Registration;
 using FubuMVC.Spark.Rendering;
 using FubuMVC.Spark.SparkModel;
@@ -14,24 +13,20 @@ namespace Jajo.Cms.FubuMVC1.Views
 {
     public class FubuSparkCmsViewEngine : ICmsViewEngine
     {
-        private readonly IRequestHeaders _headers;
-        private readonly ICurrentChain _chains;
         private readonly ISparkTemplateRegistry _sparkTemplateRegistry;
         private readonly IServiceLocator _services;
         private readonly IViewEntryProviderCache _viewEntryProviderCache;
 
-        public FubuSparkCmsViewEngine(IRequestHeaders headers, ICurrentChain chains, ISparkTemplateRegistry sparkTemplateRegistry, IServiceLocator services, IViewEntryProviderCache viewEntryProviderCache)
+        public FubuSparkCmsViewEngine(ISparkTemplateRegistry sparkTemplateRegistry, IServiceLocator services, IViewEntryProviderCache viewEntryProviderCache)
         {
-            _headers = headers;
-            _chains = chains;
             _sparkTemplateRegistry = sparkTemplateRegistry;
             _services = services;
             _viewEntryProviderCache = viewEntryProviderCache;
         }
 
-        public CmsView FindView<TModel>(string viewName, TModel model, ITheme theme, IEnumerable<IRequestContext> contexts) where TModel : class
+        public CmsView FindView<TModel>(string viewName, TModel model, ITheme theme, IEnumerable<IRequestContext> contexts, bool useMaster) where TModel : class
         {
-            var sparkViewEntry = BuildViewEntry(model);
+            var sparkViewEntry = BuildViewEntry(model, useMaster);
 
             if (sparkViewEntry == null)
                 return null;
@@ -48,7 +43,7 @@ namespace Jajo.Cms.FubuMVC1.Views
             });
         }
 
-        public ISparkViewEntry BuildViewEntry(object model)
+        public ISparkViewEntry BuildViewEntry(object model, bool useMaster)
         {
             var descriptor = _sparkTemplateRegistry
                 .ViewDescriptors()
@@ -57,7 +52,7 @@ namespace Jajo.Cms.FubuMVC1.Views
             if (descriptor == null)
                 return null;
 
-            if (_chains.IsInPartial() || _headers.IsAjaxRequest())
+            if (!useMaster)
                 descriptor.Master = null;
 
             var sparkViewDescriptor = descriptor.ToSparkViewDescriptor();

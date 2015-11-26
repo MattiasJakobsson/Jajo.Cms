@@ -19,7 +19,7 @@ namespace Jajo.Cms.Views
         public Task Render(ViewRenderInformation information, ICmsContext context, ITheme theme, TextWriter renderTo)
         {
             var view = _viewEngines
-                .Select(x => FindViewFrom(x, information.ViewName, information.Model, theme, information.Contexts))
+                .Select(x => FindViewFrom(x, information.ViewName, information.Model, theme, information.Contexts, information.UseLayout))
                 .FirstOrDefault(x => x != null);
 
             if (view == null)
@@ -28,7 +28,7 @@ namespace Jajo.Cms.Views
             return view.Render(renderTo);
         }
 
-        private static CmsView FindViewFrom(ICmsViewEngine viewEngine, string viewName, object model, ITheme theme, IEnumerable<IRequestContext> contexts)
+        private static CmsView FindViewFrom(ICmsViewEngine viewEngine, string viewName, object model, ITheme theme, IEnumerable<IRequestContext> contexts, bool useMaster)
         {
             var findViewMethod = viewEngine
                 .GetType()
@@ -36,7 +36,7 @@ namespace Jajo.Cms.Views
 
             var genericFindViewMethod = findViewMethod.MakeGenericMethod(model.GetType());
 
-            return (CmsView)genericFindViewMethod.Invoke(viewEngine, new[] { viewName, model, theme, contexts });
+            return (CmsView)genericFindViewMethod.Invoke(viewEngine, new[] { viewName, model, theme, contexts, useMaster });
         }
     }
 }
