@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Web;
+using FubuMVC.Core.Runtime;
 using FubuMVC.Core.View;
 using Jajo.Cms.Components;
 using Jajo.Cms.Rendering;
@@ -10,23 +10,22 @@ namespace Jajo.Cms.FubuMVC1
 {
     public static class CmsFubuPageExtensions
     {
-        public static IHtmlString Component(this IFubuPage page, ICmsComponent component, IDictionary<string, object> settings = null, ITheme theme = null)
+        public static void Component(this IFubuPage page, ICmsComponent component, IDictionary<string, object> settings = null, ITheme theme = null)
         {
             var cmsRenderer = page.ServiceLocator.GetInstance<ICmsRenderer>();
             var cmsContext = page.ServiceLocator.GetInstance<ICmsContext>();
-            var stream = new MemoryStream();
-            var writer = new StreamWriter(stream);
+            var outputWriter = page.ServiceLocator.GetInstance<IOutputWriter>();
 
             var result = cmsRenderer.RenderComponent(component, settings ?? new Dictionary<string, object>(), page.ServiceLocator.GetInstance<ICmsContext>(), theme ?? cmsContext.GetCurrentTheme()).Result;
 
-            result.RenderTo(writer).Wait();
-            writer.Flush();
-            stream.Position = 0;
-
-            using (var reader = new StreamReader(stream))
+            outputWriter.Write(result.ContentType, x =>
             {
-                return new HtmlString(reader.ReadToEnd());
-            }
+                var writer = new StreamWriter(x);
+
+                result.RenderTo(writer).Wait();
+
+                writer.Flush();
+            });
         }
     }
 }
