@@ -6,16 +6,16 @@ namespace Jajo.Cms.Views
 {
     public class CmsView
     {
-        private readonly Func<TextWriter, Task> _render;
+        private readonly Func<TextWriter, string, Task> _render;
 
-        public CmsView(Func<TextWriter, Task> render)
+        public CmsView(Func<TextWriter, string, Task> render)
         {
             _render = render;
         }
 
-        public Task Render(TextWriter renderTo)
+        public Task Render(TextWriter renderTo, string contentType)
         {
-            return _render(renderTo);
+            return _render(renderTo, contentType);
         }
     }
 }

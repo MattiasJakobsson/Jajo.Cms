@@ -25,7 +25,7 @@ namespace Jajo.Cms.Views
             if (view == null)
                 return Task.CompletedTask;
 
-            return view.Render(renderTo);
+            return view.Render(renderTo, information.ContentType);
         }
 
         private static CmsView FindViewFrom(ICmsViewEngine viewEngine, string viewName, object model, ITheme theme, IEnumerable<IRequestContext> contexts, bool useMaster)

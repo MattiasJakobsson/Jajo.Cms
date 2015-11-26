@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using FubuCore;
+using FubuMVC.Core.Runtime;
 using FubuMVC.Spark.Registration;
 using FubuMVC.Spark.Rendering;
 using FubuMVC.Spark.SparkModel;
@@ -16,12 +18,14 @@ namespace Jajo.Cms.FubuMVC1.Views
         private readonly ISparkTemplateRegistry _sparkTemplateRegistry;
         private readonly IServiceLocator _services;
         private readonly IViewEntryProviderCache _viewEntryProviderCache;
+        private readonly IOutputWriter _outputWriter;
 
-        public FubuSparkCmsViewEngine(ISparkTemplateRegistry sparkTemplateRegistry, IServiceLocator services, IViewEntryProviderCache viewEntryProviderCache)
+        public FubuSparkCmsViewEngine(ISparkTemplateRegistry sparkTemplateRegistry, IServiceLocator services, IViewEntryProviderCache viewEntryProviderCache, IOutputWriter outputWriter)
         {
             _sparkTemplateRegistry = sparkTemplateRegistry;
             _services = services;
             _viewEntryProviderCache = viewEntryProviderCache;
+            _outputWriter = outputWriter;
         }
 
         public CmsView FindView<TModel>(string viewName, TModel model, ITheme theme, IEnumerable<IRequestContext> contexts, bool useMaster) where TModel : class
@@ -31,15 +35,22 @@ namespace Jajo.Cms.FubuMVC1.Views
             if (sparkViewEntry == null)
                 return null;
 
-            return new CmsView(x =>
+            return new CmsView((renderTo, contentType) =>
             {
                 var view = sparkViewEntry.CreateInstance();
 
                 SetModel(model, view);
 
-                view.RenderView(x);
+                var result = _outputWriter.Record(() => _outputWriter.Write(contentType, x =>
+                {
+                    var writer = new StreamWriter(x);
 
-                return Task.CompletedTask;
+                    view.RenderView(writer);
+
+                    writer.Flush();
+                }));
+
+                return renderTo.WriteAsync(result.GetText());
             });
         }
 
@@ -61,7 +72,7 @@ namespace Jajo.Cms.FubuMVC1.Views
         {
             var fubuPage = view as FubuSparkView<TModel>;
 
-            if(fubuPage == null)
+            if (fubuPage == null)
                 return;
 
             fubuPage.ServiceLocator = _services;
