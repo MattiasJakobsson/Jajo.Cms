@@ -48,6 +48,8 @@ namespace Jajo.Cms.FubuMVC1.Views
                     view.RenderView(writer);
 
                     writer.Flush();
+
+                    _outputWriter.Flush();
                 }));
 
                 return renderTo.WriteAsync(result.GetText());
