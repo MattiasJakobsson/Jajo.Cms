@@ -15,7 +15,8 @@ namespace Jajo.Cms.FubuMVC1.Menu
 
         public BreadCrumbsEndpointQueryResult Query(BreadCrumbsEndpointQueryInput input)
         {
-            return new BreadCrumbsEndpointQueryResult(_findBreadCrumbsFor.Get(input.CurrentInput).ToList());
+            return new BreadCrumbsEndpointQueryResult();
+            //return new BreadCrumbsEndpointQueryResult(_findBreadCrumbsFor.Get(input.CurrentInput).ToList());
         }
     }
 
@@ -26,11 +27,11 @@ namespace Jajo.Cms.FubuMVC1.Menu
 
     public class BreadCrumbsEndpointQueryResult
     {
-        public BreadCrumbsEndpointQueryResult(IEnumerable<BreadCrumb> breadCrumbs)
-        {
-            BreadCrumbs = breadCrumbs;
-        }
+        //public BreadCrumbsEndpointQueryResult(IEnumerable<BreadCrumb> breadCrumbs)
+        //{
+        //    BreadCrumbs = breadCrumbs;
+        //}
 
-        public IEnumerable<BreadCrumb> BreadCrumbs { get; private set; }
+        //public IEnumerable<BreadCrumb> BreadCrumbs { get; private set; }
     }
 }

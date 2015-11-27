@@ -1,9 +1,14 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FubuCore;
+using FubuMVC.Core.Caching;
+using FubuMVC.Core.Http.Headers;
+using FubuMVC.Core.Registration.Querying;
 using FubuMVC.Core.Runtime;
+using FubuMVC.Core.UI;
+using FubuMVC.Core.Urls;
 using FubuMVC.Spark.Registration;
 using FubuMVC.Spark.Rendering;
 using FubuMVC.Spark.SparkModel;
@@ -18,45 +23,43 @@ namespace Jajo.Cms.FubuMVC1.Views
         private readonly ISparkTemplateRegistry _sparkTemplateRegistry;
         private readonly IServiceLocator _services;
         private readonly IViewEntryProviderCache _viewEntryProviderCache;
-        private readonly IOutputWriter _outputWriter;
+        private readonly IPartialInvoker _partialInvoker;
 
-        public FubuSparkCmsViewEngine(ISparkTemplateRegistry sparkTemplateRegistry, IServiceLocator services, IViewEntryProviderCache viewEntryProviderCache, IOutputWriter outputWriter)
+        public FubuSparkCmsViewEngine(ISparkTemplateRegistry sparkTemplateRegistry, IServiceLocator services, IViewEntryProviderCache viewEntryProviderCache, IPartialInvoker partialInvoker)
         {
             _sparkTemplateRegistry = sparkTemplateRegistry;
             _services = services;
             _viewEntryProviderCache = viewEntryProviderCache;
-            _outputWriter = outputWriter;
+            _partialInvoker = partialInvoker;
         }
 
         public CmsView FindView<TModel>(string viewName, TModel model, ITheme theme, IEnumerable<IRequestContext> contexts, bool useMaster) where TModel : class
         {
-            var sparkViewEntry = BuildViewEntry(model, useMaster);
-
-            if (sparkViewEntry == null)
-                return null;
-
-            return new CmsView((renderTo, contentType) =>
+            return new CmsView((x, y) =>
             {
-                var view = sparkViewEntry.CreateInstance();
-
-                SetModel(model, view);
-
-                var result = _outputWriter.Record(() => _outputWriter.Write(contentType, x =>
+                if (useMaster)
                 {
-                    var writer = new StreamWriter(x);
+                    var sparkViewEntry = BuildViewEntry(model);
 
-                    view.RenderView(writer);
+                    if (sparkViewEntry == null)
+                        return Task.CompletedTask;
 
-                    writer.Flush();
+                    var view = sparkViewEntry.CreateInstance();
 
-                    _outputWriter.Flush();
-                }));
+                    SetModel(model, view);
 
-                return renderTo.WriteAsync(result.GetText());
+                    view.RenderView(x);
+
+                    return Task.CompletedTask;
+                }
+
+                var result = _partialInvoker.InvokeObject(model);
+
+                return x.WriteAsync(result);
             });
         }
 
-        public ISparkViewEntry BuildViewEntry(object model, bool useMaster)
+        public ISparkViewEntry BuildViewEntry(object model)
         {
             var descriptor = _sparkTemplateRegistry
                 .ViewDescriptors()
@@ -65,7 +68,7 @@ namespace Jajo.Cms.FubuMVC1.Views
             if (descriptor == null)
                 return null;
 
-            var sparkViewDescriptor = useMaster ? descriptor.ToSparkViewDescriptor() : descriptor.ToPartialSparkViewDescriptor();
+            var sparkViewDescriptor = descriptor.ToSparkViewDescriptor();
 
             return _viewEntryProviderCache.GetViewEntry(sparkViewDescriptor);
         }
@@ -74,7 +77,7 @@ namespace Jajo.Cms.FubuMVC1.Views
         {
             var fubuPage = view as FubuSparkView<TModel>;
 
-            if (fubuPage == null)
+            if(fubuPage == null)
                 return;
 
             fubuPage.ServiceLocator = _services;
