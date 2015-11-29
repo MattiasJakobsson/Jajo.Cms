@@ -17,9 +17,9 @@ namespace Jajo.Cms.FubuMVC1
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream);
 
-            var result = cmsRenderer.RenderComponent(component, settings ?? new Dictionary<string, object>(), page.ServiceLocator.GetInstance<ICmsContext>(), theme ?? cmsContext.GetCurrentTheme()).Result;
+            var result = cmsRenderer.RenderComponent(component, settings ?? new Dictionary<string, object>(), page.ServiceLocator.GetInstance<ICmsContext>(), theme ?? cmsContext.GetCurrentTheme());
 
-            result.RenderTo(writer).Wait();
+            result.RenderTo(writer);
             writer.Flush();
             stream.Position = 0;
 

@@ -1,21 +1,20 @@
 using System;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace Jajo.Cms.Views
 {
     public class CmsView
     {
-        private readonly Func<TextWriter, string, Task> _render;
+        private readonly Action<TextWriter, string> _render;
 
-        public CmsView(Func<TextWriter, string, Task> render)
+        public CmsView(Action<TextWriter, string> render)
         {
             _render = render;
         }
 
-        public Task Render(TextWriter renderTo, string contentType)
+        public void Render(TextWriter renderTo, string contentType)
         {
-            return _render(renderTo, contentType);
+            _render(renderTo, contentType);
         }
     }
 }

@@ -30,13 +30,13 @@ namespace Jajo.Cms.FubuMVC1.Endpoints
 
         public void Write(string mimeType, T resource)
         {
-            var renderResult = _cmsRenderer.RenderEndpoint(resource, _cmsContext, _cmsContext.GetCurrentTheme()).Result;
+            var renderResult = _cmsRenderer.RenderEndpoint(resource, _cmsContext, _cmsContext.GetCurrentTheme());
 
             _writer.Write(renderResult.ContentType, x =>
             {
                 var writer = new StreamWriter(x);
 
-                renderResult.RenderTo(writer).Wait();
+                renderResult.RenderTo(writer);
 
                 writer.Flush();
             });

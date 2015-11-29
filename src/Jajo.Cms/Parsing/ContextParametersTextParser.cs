@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Jajo.Cms.Rendering;
 using Jajo.Cms.Theme;
 
@@ -16,12 +15,12 @@ namespace Jajo.Cms.Parsing
             _findParameterValueFromModel = findParameterValueFromModel;
         }
 
-        protected override Task<object> FindParameterValue(Match match, ICmsRenderer cmsRenderer, ICmsContext context, ITheme theme)
+        protected override object FindParameterValue(Match match, ICmsRenderer cmsRenderer, ICmsContext context, ITheme theme)
         {
             var contextNameGroup = match.Groups["contextName"];
 
             if (contextNameGroup == null || string.IsNullOrEmpty(contextNameGroup.Value))
-                return Task.FromResult<object>("");
+                return "";
 
             var contextName = match.Groups["contextName"].Value;
 
@@ -32,7 +31,7 @@ namespace Jajo.Cms.Parsing
             if (requestContext == null)
                 return null;
 
-            return Task.FromResult(_findParameterValueFromModel.Find(contextName.Substring(string.Format("{0}.", contextType).Length), requestContext));
+            return _findParameterValueFromModel.Find(contextName.Substring(string.Format("{0}.", contextType).Length), requestContext);
         }
 
         protected override IEnumerable<Regex> GetRegexes()

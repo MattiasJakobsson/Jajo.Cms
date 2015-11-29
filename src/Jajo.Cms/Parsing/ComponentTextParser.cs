@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Jajo.Cms.Components;
 using Jajo.Cms.Rendering;
 using Jajo.Cms.Theme;
@@ -19,7 +18,7 @@ namespace Jajo.Cms.Parsing
             _components = components;
         }
 
-        protected override async Task<object> FindParameterValue(Match match, ICmsRenderer cmsRenderer, ICmsContext context, ITheme theme)
+        protected override object FindParameterValue(Match match, ICmsRenderer cmsRenderer, ICmsContext context, ITheme theme)
         {
             var componentNameGroup = match.Groups["componentName"];
 
@@ -53,14 +52,14 @@ namespace Jajo.Cms.Parsing
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream);
 
-            var renderResult = await cmsRenderer.RenderComponent(component, settings, context, theme);
-            await renderResult.RenderTo(writer);
+            var renderResult = cmsRenderer.RenderComponent(component, settings, context, theme);
+            renderResult.RenderTo(writer);
 
-            await writer.FlushAsync();
+            writer.Flush();
             stream.Position = 0;
 
             using (var reader = new StreamReader(stream))
-                return await reader.ReadToEndAsync();
+                return reader.ReadToEnd();
         }
 
         protected override IEnumerable<Regex> GetRegexes()

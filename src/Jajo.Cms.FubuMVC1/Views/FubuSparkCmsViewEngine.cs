@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using FubuCore;
-using FubuMVC.Core.Caching;
-using FubuMVC.Core.Http.Headers;
-using FubuMVC.Core.Registration.Querying;
-using FubuMVC.Core.Runtime;
 using FubuMVC.Core.UI;
-using FubuMVC.Core.Urls;
 using FubuMVC.Spark.Registration;
 using FubuMVC.Spark.Rendering;
 using FubuMVC.Spark.SparkModel;
@@ -42,7 +35,7 @@ namespace Jajo.Cms.FubuMVC1.Views
                     var sparkViewEntry = BuildViewEntry(model);
 
                     if (sparkViewEntry == null)
-                        return Task.Run(() => { });
+                        return;
 
                     var view = sparkViewEntry.CreateInstance();
 
@@ -50,12 +43,12 @@ namespace Jajo.Cms.FubuMVC1.Views
 
                     view.RenderView(x);
 
-                    return Task.Run(() => { });
+                    return;
                 }
 
                 var result = _partialInvoker.InvokeObject(model);
 
-                return x.WriteAsync(result);
+                x.Write(result);
             });
         }
 

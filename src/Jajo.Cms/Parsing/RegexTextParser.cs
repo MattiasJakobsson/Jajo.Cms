@@ -12,13 +12,13 @@ namespace Jajo.Cms.Parsing
     {
         protected virtual string SeperateListItemsWith { get { return "\n"; } }
 
-        public Task<string> Parse(string text, ICmsRenderer cmsRenderer, ICmsContext context, ITheme theme)
+        public string Parse(string text, ICmsRenderer cmsRenderer, ICmsContext context, ITheme theme)
         {
             text = text ?? "";
 
             text = GetRegexes().Aggregate(text, (current, regex) => regex.Replace(current, x =>
             {
-                var value = FindParameterValue(x, cmsRenderer, context, theme).Result;
+                var value = FindParameterValue(x, cmsRenderer, context, theme);
 
                 if (value == null) return "";
 
@@ -33,10 +33,10 @@ namespace Jajo.Cms.Parsing
                 return value.ToString();
             }));
 
-            return Task.FromResult(text);
+            return text;
         }
 
-        protected abstract Task<object> FindParameterValue(Match match, ICmsRenderer cmsRenderer, ICmsContext context, ITheme theme);
+        protected abstract object FindParameterValue(Match match, ICmsRenderer cmsRenderer, ICmsContext context, ITheme theme);
         protected abstract IEnumerable<Regex> GetRegexes();
     }
 }

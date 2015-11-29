@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Threading.Tasks;
 using Jajo.Cms.Theme;
 
 namespace Jajo.Cms.Rendering
@@ -13,10 +12,10 @@ namespace Jajo.Cms.Rendering
             _cmsRenderer = cmsRenderer;
         }
 
-        public async Task Render(TemplateRenderInformation information, ICmsContext context, ITheme theme, TextWriter renderTo)
+        public void Render(TemplateRenderInformation information, ICmsContext context, ITheme theme, TextWriter renderTo)
         {
-            var renderResult = await _cmsRenderer.RenderTemplate(information.Template, information.OverrideSettings, context, theme);
-            await renderResult.RenderTo(renderTo);
+            var renderResult = _cmsRenderer.RenderTemplate(information.Template, information.OverrideSettings, context, theme);
+            renderResult.RenderTo(renderTo);
         }
     }
 }
