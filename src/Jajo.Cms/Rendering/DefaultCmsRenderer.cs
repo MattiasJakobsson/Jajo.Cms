@@ -31,7 +31,7 @@ namespace Jajo.Cms.Rendering
                 .FirstOrDefault();
 
             if (themeEndpoint == null)
-                return new RenderResult("text/plain", x => Task.CompletedTask, new Dictionary<Guid, IRequestContext>(), context);
+                return new RenderResult("text/plain", x => Task.Run(() => { }), new Dictionary<Guid, IRequestContext>(), context);
 
             var settings = themeEndpoint.GetDefaultSettings();
             var endpointConfiguration = await _endpointConfigurationStorage.Load(theme.GetName(), theme);
@@ -45,7 +45,7 @@ namespace Jajo.Cms.Rendering
             var renderInformation = await themeEndpoint.Render(input, context, settings);
 
             if (renderInformation == null)
-                return new RenderResult("text/plain", x => Task.CompletedTask, new Dictionary<Guid, IRequestContext>(), context);
+                return new RenderResult("text/plain", x => Task.Run(() => { }), new Dictionary<Guid, IRequestContext>(), context);
 
             var contexts = renderInformation.Contexts.ToDictionary(x => Guid.NewGuid(), x => x);
             contexts[Guid.NewGuid()] = new EndpointSettingsContext(settings);
@@ -61,12 +61,12 @@ namespace Jajo.Cms.Rendering
         public async Task<IRenderResult> RenderComponent(ICmsComponent component, IDictionary<string, object> settings, ICmsContext context, ITheme theme)
         {
             if (!context.CanRender(component, theme))
-                return new RenderResult("text/plain", x => Task.CompletedTask, new Dictionary<Guid, IRequestContext>(), context);
+                return new RenderResult("text/plain", x => Task.Run(() => { }), new Dictionary<Guid, IRequestContext>(), context);
 
             var renderInformation = await component.Render(context, settings);
 
             if (renderInformation == null)
-                return new RenderResult("text/plain", x => Task.CompletedTask, new Dictionary<Guid, IRequestContext>(), context);
+                return new RenderResult("text/plain", x => Task.Run(() => { }), new Dictionary<Guid, IRequestContext>(), context);
 
             var contexts = renderInformation.Contexts.ToDictionary(x => Guid.NewGuid(), x => x);
             contexts[Guid.NewGuid()] = new ComponentSettingsContext(settings);
@@ -82,7 +82,7 @@ namespace Jajo.Cms.Rendering
         public async Task<IRenderResult> RenderTemplate(CmsTemplate template, IDictionary<string, object> settings, ICmsContext context, ITheme theme)
         {
             if (!context.CanRender(template, theme))
-                return new RenderResult("text/plain", x => Task.CompletedTask, new Dictionary<Guid, IRequestContext>(), context);
+                return new RenderResult("text/plain", x => Task.Run(() => { }), new Dictionary<Guid, IRequestContext>(), context);
 
             var templateSettings = template.Settings.ToDictionary(x => x.Key, x => x.Value);
 

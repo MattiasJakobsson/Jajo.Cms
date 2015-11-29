@@ -23,7 +23,7 @@ namespace Jajo.Cms.Views
                 .FirstOrDefault(x => x != null);
 
             if (view == null)
-                return Task.CompletedTask;
+                return Task.Run(() => { });
 
             return view.Render(renderTo, information.ContentType);
         }

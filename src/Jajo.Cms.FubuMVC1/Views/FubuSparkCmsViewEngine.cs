@@ -42,7 +42,7 @@ namespace Jajo.Cms.FubuMVC1.Views
                     var sparkViewEntry = BuildViewEntry(model);
 
                     if (sparkViewEntry == null)
-                        return Task.CompletedTask;
+                        return Task.Run(() => { });
 
                     var view = sparkViewEntry.CreateInstance();
 
@@ -50,7 +50,7 @@ namespace Jajo.Cms.FubuMVC1.Views
 
                     view.RenderView(x);
 
-                    return Task.CompletedTask;
+                    return Task.Run(() => { });
                 }
 
                 var result = _partialInvoker.InvokeObject(model);
