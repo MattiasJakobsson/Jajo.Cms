@@ -8,5 +8,6 @@ namespace Jajo.Cms.Theme
         string GetCategory();
 
         IDictionary<string, object> GetDefaultSettings();
+        bool IsTranslationKeyForTheme(string key);
     }
 }
