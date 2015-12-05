@@ -30,6 +30,7 @@ namespace Jajo.Cms.FubuMVC1.Localization
         {
             var translationKey = key;
             var writeMissing = true;
+            var missingKeys = new List<string>();
 
             while (true)
             {
@@ -39,19 +40,27 @@ namespace Jajo.Cms.FubuMVC1.Localization
                     return translationResult.Item1;
 
                 if (writeMissing)
-                    WriteMissing(translationKey, "", culture);
+                    missingKeys.Add(translationKey);
 
                 var keyParts = translationKey.Split(':');
 
                 var text = translationKey;
 
                 if (keyParts.Length <= 1)
+                {
+                    WriteMissing(missingKeys, culture);
+
                     return text;
+                }
 
                 var namespaceParts = keyParts.Take(keyParts.Length - 1).ToArray();
 
                 if (namespaceParts.Length <= 0)
+                {
+                    WriteMissing(missingKeys, culture);
+
                     return text;
+                }
 
                 var namespacePartsToUse = namespaceParts.Take(namespaceParts.Length - 1).ToArray();
                 translationKey = keyParts.Last();
@@ -106,7 +115,13 @@ namespace Jajo.Cms.FubuMVC1.Localization
             return key;
         }
 
-        protected virtual void WriteMissing(string key, string text, CultureInfo culture)
+        protected virtual void WriteMissing(IEnumerable<string> keys, CultureInfo culture)
+        {
+            foreach (var key in keys)
+                WriteMissing(key, culture);
+        }
+
+        protected virtual void WriteMissing(string key, CultureInfo culture)
         {
             var missingFileLocation = GetMissingLocaleFileLocation();
 
@@ -117,7 +132,7 @@ namespace Jajo.Cms.FubuMVC1.Localization
                 if (missingDocument.DocumentElement != null && missingDocument.DocumentElement.SelectSingleNode("{0}[@{1}='{2}']".ToFormat((object)"missing", (object)"key", (object)key)) != null)
                     return;
 
-                missingDocument.DocumentElement.AddElement("missing").WithAtt("key", key).WithAtt("culture", culture.Name).InnerText = text;
+                missingDocument.DocumentElement.AddElement("missing").WithAtt("key", key).WithAtt("culture", culture.Name).InnerText = "";
                 missingDocument.Save(missingFileLocation);
             }
         }
