@@ -10,7 +10,7 @@ namespace Jajo.Cms.Parsing
         {
             var markdownParser = new Markdown();
 
-            return markdownParser.Transform(text.Replace("\n", "<br/>"));
+            return markdownParser.Transform(text);
         }
     }
 }
