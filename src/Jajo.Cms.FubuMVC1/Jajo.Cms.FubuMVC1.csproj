@@ -91,6 +91,9 @@
     <Compile Include="Files\DefaultFileUploader.cs" />
     <Compile Include="Files\FilesRegistry.cs" />
     <Compile Include="IThemeSettings.cs" />
+    <Compile Include="Localization\DefaultLocalizationNamespaceFinder.cs" />
+    <Compile Include="Localization\DefaultTextLocalizer.cs" />
+    <Compile Include="Localization\LocalizationRegistration.cs" />
     <Compile Include="Menu\BreadCrumbsEndpoint.cs" />
     <Compile Include="Menu\BreadCrumbsExtensions.cs" />
     <Compile Include="Menu\BreadCrumbsRegistration.cs" />
@@ -131,6 +134,7 @@
   <ItemGroup>
     <EmbeddedResource Include="pak-WebContent.zip" />
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="($(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v3.5' Or $(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6')) Or ($(TargetFrameworkIdentifier) == 'MonoAndroid') Or ($(TargetFrameworkIdentifier) == 'MonoTouch')">
       <ItemGroup>
