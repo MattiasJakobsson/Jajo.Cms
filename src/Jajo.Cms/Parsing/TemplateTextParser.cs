@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text.RegularExpressions;
 using Jajo.Cms.Rendering;
 using Jajo.Cms.Templates;
@@ -17,7 +17,14 @@ namespace Jajo.Cms.Parsing
             _templateStorage = templateStorage;
         }
 
-        protected override object FindParameterValue(Match match, ICmsRenderer cmsRenderer, ICmsContext context, ITheme theme)
+        public override IEnumerable<string> GetTags()
+        {
+            yield return "template";
+            yield return "advanced";
+            yield return "multitarget";
+        }
+
+        protected override object FindParameterValue(Match match, ICmsRenderer cmsRenderer, ICmsContext context, ITheme theme, Func<string, string> recurse)
         {
             var templateNameGroup = match.Groups["templateName"];
 
@@ -48,17 +55,9 @@ namespace Jajo.Cms.Parsing
                 }
             }
 
-            var stream = new MemoryStream();
-            var writer = new StreamWriter(stream);
-
             var renderResult = cmsRenderer.RenderTemplate(template, settings, context, theme);
-            renderResult.RenderTo(writer);
 
-            writer.Flush();
-            stream.Position = 0;
-
-            using (var reader = new StreamReader(stream))
-                return reader.ReadToEnd();
+            return renderResult.Read();
         }
 
         protected override IEnumerable<Regex> GetRegexes()

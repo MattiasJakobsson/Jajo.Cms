@@ -99,10 +99,19 @@ namespace Jajo.Cms.Rendering
             return new RenderResult(string.IsNullOrEmpty(template.ContentType) ? result.ContentType : template.ContentType, x => result.RenderTo(x), contexts, context);
         }
 
-        public IRenderResult ParseText(string text, ICmsContext context, ITheme theme)
+        public IRenderResult ParseText(string text, ICmsContext context, ITheme theme, ParseTextOptions options = null)
         {
-            foreach (var textParser in _textParsers)
-                text = textParser.Parse(text, this, context, theme);
+            var parsers = _textParsers.ToList();
+
+            if (options != null && options.UseOnlyParsersTagged.Any())
+                parsers = parsers.Where(x => options.UseOnlyParsersTagged.All(y => x.GetTags().Contains(y))).ToList();
+
+            foreach (var textParser in parsers)
+            {
+                var useOptionsForNextLevel = options != null && !options.FilterOnlyFirstLevel;
+
+                text = textParser.Parse(text, this, context, theme, x => ParseText(x, context, theme, useOptionsForNextLevel ? options : null).Read());
+            }
 
             return new RenderResult("text/html", x => x.Write(text), new Dictionary<Guid, IRequestContext>(), context);
         }
@@ -152,6 +161,20 @@ namespace Jajo.Cms.Rendering
 
                 foreach (var context in _requestContexts)
                     _cmsContext.ExitContext(context.Key);
+            }
+
+            public string Read()
+            {
+                var stream = new MemoryStream();
+                var writer = new StreamWriter(stream);
+
+                RenderTo(writer);
+
+                writer.Flush();
+                stream.Position = 0;
+
+                using (var reader = new StreamReader(stream))
+                    return reader.ReadToEnd();
             }
         }
     }

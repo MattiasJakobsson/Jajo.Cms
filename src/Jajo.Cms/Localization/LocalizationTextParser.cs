@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Jajo.Cms.Parsing;
 using Jajo.Cms.Rendering;
@@ -20,18 +22,48 @@ namespace Jajo.Cms.Localization
             _findCultureForRequest = findCultureForRequest;
         }
 
-        protected override object FindParameterValue(Match match, ICmsRenderer cmsRenderer, ICmsContext context, ITheme theme)
+        public override IEnumerable<string> GetTags()
+        {
+            yield return "translations";
+            yield return "multitarget";
+        }
+
+        protected override object FindParameterValue(Match match, ICmsRenderer cmsRenderer, ICmsContext context, ITheme theme, Func<string, string> recurse)
         {
             var localizationNamespace = _findCurrentLocalizationNamespace.Find();
 
             var key = !string.IsNullOrEmpty(localizationNamespace) ? string.Format("{0}:{1}", localizationNamespace, match.Groups["resource"].Value) : match.Groups["resource"].Value;
 
-            return _localizeText.Localize(key, _findCultureForRequest.FindUiCulture());
+            var replacements = new Dictionary<string, string>();
+
+            var replacementsGroup = match.Groups["replacements"];
+
+            if (replacementsGroup != null && !string.IsNullOrEmpty(replacementsGroup.Value))
+            {
+                var replacementsData = replacementsGroup
+                    .Value
+                    .Substring("replacements=".Length)
+                    .Split(',')
+                    .Where(x => !string.IsNullOrEmpty(x))
+                    .Select(x => x.Split(':'))
+                    .Where(x => x.Length > 1 && !string.IsNullOrEmpty(x[0]) && !string.IsNullOrEmpty(x[1]))
+                    .ToList();
+
+                foreach (var item in replacementsData)
+                    replacements[item[0]] = item[1];
+            }
+
+            var localized = _localizeText.Localize(key, _findCultureForRequest.FindUiCulture());
+
+            localized = replacements.Aggregate(localized, (current, replacement) => current.Replace(string.Join("{", replacement.Key, "}"), replacement.Value));
+
+            return recurse(localized);
         }
 
         protected override IEnumerable<Regex> GetRegexes()
         {
             yield return new Regex(@"\%\[(?<resource>.[a-z&auml;&aring;&ouml;A-Z&Auml;&Aring;&Ouml;0-9_-]*)\]\%", RegexOptions.Compiled);
+            yield return new Regex(@"\%\[(?<resource>.[a-z&auml;&aring;&ouml;A-Z&Auml;&Aring;&Ouml;0-9_-]*) replacements\=((?<replacements>[a-z&auml;&aring;&ouml;A-Z&Auml;&Aring;&Ouml;0-9\:\,]*))\]\%", RegexOptions.Compiled);
         }
     }
 }

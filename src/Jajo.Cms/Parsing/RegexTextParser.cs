@@ -1,8 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Jajo.Cms.Rendering;
 using Jajo.Cms.Theme;
 
@@ -12,13 +12,13 @@ namespace Jajo.Cms.Parsing
     {
         protected virtual string SeperateListItemsWith { get { return "\n"; } }
 
-        public string Parse(string text, ICmsRenderer cmsRenderer, ICmsContext context, ITheme theme)
+        public string Parse(string text, ICmsRenderer cmsRenderer, ICmsContext context, ITheme theme, Func<string, string> recurse)
         {
             text = text ?? "";
 
             text = GetRegexes().Aggregate(text, (current, regex) => regex.Replace(current, x =>
             {
-                var value = FindParameterValue(x, cmsRenderer, context, theme);
+                var value = FindParameterValue(x, cmsRenderer, context, theme, recurse);
 
                 if (value == null) return "";
 
@@ -36,7 +36,8 @@ namespace Jajo.Cms.Parsing
             return text;
         }
 
-        protected abstract object FindParameterValue(Match match, ICmsRenderer cmsRenderer, ICmsContext context, ITheme theme);
+        public abstract IEnumerable<string> GetTags();
+        protected abstract object FindParameterValue(Match match, ICmsRenderer cmsRenderer, ICmsContext context, ITheme theme, Func<string, string> recurse);
         protected abstract IEnumerable<Regex> GetRegexes();
     }
 }

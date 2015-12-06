@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -15,7 +16,13 @@ namespace Jajo.Cms.Parsing
             _findParameterValueFromModel = findParameterValueFromModel;
         }
 
-        protected override object FindParameterValue(Match match, ICmsRenderer cmsRenderer, ICmsContext context, ITheme theme)
+        public override IEnumerable<string> GetTags()
+        {
+            yield return "parameter";
+            yield return "multitarget";
+        }
+
+        protected override object FindParameterValue(Match match, ICmsRenderer cmsRenderer, ICmsContext context, ITheme theme, Func<string, string> recurse)
         {
             var contextNameGroup = match.Groups["contextName"];
 
@@ -31,7 +38,11 @@ namespace Jajo.Cms.Parsing
             if (requestContext == null)
                 return null;
 
-            return _findParameterValueFromModel.Find(contextName.Substring(string.Format("{0}.", contextType).Length), requestContext);
+            var value = _findParameterValueFromModel.Find(contextName.Substring(string.Format("{0}.", contextType).Length), requestContext);
+
+            var stringValue = value as string;
+
+            return stringValue != null ? recurse(stringValue) : value;
         }
 
         protected override IEnumerable<Regex> GetRegexes()

@@ -48,6 +48,7 @@
     <Compile Include="Localization\IFindCurrentLocalizationNamespace.cs" />
     <Compile Include="Localization\ILocalizeText.cs" />
     <Compile Include="Rendering\JsonRenderInformation.cs" />
+    <Compile Include="Rendering\ParseTextOptions.cs" />
     <Compile Include="Rendering\RenderJsonRenderInformation.cs" />
     <Compile Include="TypeExtensions.cs" />
     <Compile Include="ISupplyContext.cs" />

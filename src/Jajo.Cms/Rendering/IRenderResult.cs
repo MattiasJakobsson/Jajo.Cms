@@ -6,5 +6,6 @@ namespace Jajo.Cms.Rendering
     {
         string ContentType { get; }
         void RenderTo(TextWriter writer);
+        string Read();
     }
 }

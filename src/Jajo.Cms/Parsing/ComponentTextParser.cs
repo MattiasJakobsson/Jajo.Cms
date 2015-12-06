@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Jajo.Cms.Components;
@@ -18,7 +18,14 @@ namespace Jajo.Cms.Parsing
             _components = components;
         }
 
-        protected override object FindParameterValue(Match match, ICmsRenderer cmsRenderer, ICmsContext context, ITheme theme)
+        public override IEnumerable<string> GetTags()
+        {
+            yield return "component";
+            yield return "advanced";
+            yield return "multitarget";
+        }
+
+        protected override object FindParameterValue(Match match, ICmsRenderer cmsRenderer, ICmsContext context, ITheme theme, Func<string, string> recurse)
         {
             var componentNameGroup = match.Groups["componentName"];
 
@@ -49,17 +56,9 @@ namespace Jajo.Cms.Parsing
                 }
             }
 
-            var stream = new MemoryStream();
-            var writer = new StreamWriter(stream);
-
             var renderResult = cmsRenderer.RenderComponent(component, settings, context, theme);
-            renderResult.RenderTo(writer);
 
-            writer.Flush();
-            stream.Position = 0;
-
-            using (var reader = new StreamReader(stream))
-                return reader.ReadToEnd();
+            return recurse(renderResult.Read());
         }
 
         protected override IEnumerable<Regex> GetRegexes()
