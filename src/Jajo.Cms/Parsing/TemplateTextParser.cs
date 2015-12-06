@@ -44,7 +44,7 @@ namespace Jajo.Cms.Parsing
 
             if (settingsGroup != null && !string.IsNullOrEmpty(settingsGroup.Value))
             {
-                var settingsJson = settingsGroup.Value.Substring("settings=".Length);
+                var settingsJson = settingsGroup.Value;
 
                 if (!string.IsNullOrEmpty(settingsJson))
                 {

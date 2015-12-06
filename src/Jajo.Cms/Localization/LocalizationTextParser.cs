@@ -42,7 +42,6 @@ namespace Jajo.Cms.Localization
             {
                 var replacementsData = replacementsGroup
                     .Value
-                    .Substring("replacements=".Length)
                     .Split(',')
                     .Where(x => !string.IsNullOrEmpty(x))
                     .Select(x => x.Split(':'))
