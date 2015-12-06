@@ -12,7 +12,7 @@ namespace Jajo.Cms.Parsing
         {
             var markdownParser = new Markdown();
 
-            return markdownParser.Transform(text.Replace("\r\n", "<br/>"));
+            return markdownParser.Transform(text);
         }
 
         public IEnumerable<string> GetTags()
