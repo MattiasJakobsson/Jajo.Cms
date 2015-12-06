@@ -19,12 +19,12 @@ namespace Jajo.Cms.FubuMVC1
             return new HtmlString(result.Read());
         }
 
-        public static IHtmlString ParseText(this IFubuPage page, string text, ITheme theme = null)
+        public static IHtmlString ParseText(this IFubuPage page, string text, ParseTextOptions options = null, ITheme theme = null)
         {
             var cmsRenderer = page.ServiceLocator.GetInstance<ICmsRenderer>();
             var cmsContext = page.ServiceLocator.GetInstance<ICmsContext>();
 
-            var result = cmsRenderer.ParseText(text, cmsContext, theme ?? cmsContext.GetCurrentTheme());
+            var result = cmsRenderer.ParseText(text, cmsContext, theme ?? cmsContext.GetCurrentTheme(), options);
 
             return new HtmlString(result.Read());
         }
