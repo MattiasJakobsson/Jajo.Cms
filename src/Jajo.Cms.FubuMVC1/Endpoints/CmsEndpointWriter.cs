@@ -24,7 +24,7 @@ namespace Jajo.Cms.FubuMVC1.Endpoints
         {
             get
             {
-                yield return MimeType.Any.Value;
+                yield return MimeType.Html.Value;
             }
         }
 
