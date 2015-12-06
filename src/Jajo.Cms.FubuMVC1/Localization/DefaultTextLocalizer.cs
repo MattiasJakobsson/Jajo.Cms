@@ -20,10 +20,12 @@ namespace Jajo.Cms.FubuMVC1.Localization
         private readonly IFileSystem _fileSystem = new FileSystem();
         private const string LeafElement = "string";
         private readonly IFubuApplicationFiles _fubuApplicationFiles;
+        private readonly IEnumerable<ILocalizationVisitor> _visitors;
 
-        public DefaultTextLocalizer(IFubuApplicationFiles fubuApplicationFiles)
+        public DefaultTextLocalizer(IFubuApplicationFiles fubuApplicationFiles, IEnumerable<ILocalizationVisitor> visitors)
         {
             _fubuApplicationFiles = fubuApplicationFiles;
+            _visitors = visitors;
         }
 
         public virtual string Localize(string key, CultureInfo culture)
@@ -37,7 +39,7 @@ namespace Jajo.Cms.FubuMVC1.Localization
                 var translationResult = GetTranslation(translationKey, culture);
 
                 if (translationResult.Item2)
-                    return translationResult.Item1;
+                    return _visitors.Aggregate(translationResult.Item1, (current, visitor) => visitor.AfterLocalized(translationKey, current));
 
                 if (writeMissing)
                     missingKeys.Add(translationKey);

@@ -54,7 +54,7 @@ namespace Jajo.Cms.Localization
 
             var localized = _localizeText.Localize(key, _findCultureForRequest.FindUiCulture());
 
-            localized = replacements.Aggregate(localized, (current, replacement) => current.Replace(string.Join("{", replacement.Key, "}"), replacement.Value));
+            localized = replacements.Aggregate(localized, (current, replacement) => current.Replace(string.Concat("{", replacement.Key, "}"), replacement.Value));
 
             return recurse(localized);
         }

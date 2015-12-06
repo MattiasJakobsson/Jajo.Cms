@@ -3,11 +3,13 @@ NUGET
   specs:
     BCrypt.Net (0.1.0)
     EventStore.Client (3.3.1)
+    Fixie (1.0.0.33)
     FluentValidation (5.6.2.0)
     ImageProcessor (2.3.1.0)
     MarkdownSharp (1.13.0.0)
     Newtonsoft.Json (6.0.8.0)
     RavenDB.Client (3.0.30000)
+    Should (1.1.20)
     Spark (1.8.1.0)
     structuremap (2.6.4.1)
   remote: https://www.myget.org/F/jakobsson/api/v2

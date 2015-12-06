@@ -22,6 +22,17 @@ build :quick_compile do |b|
   b.sln     = 'src/Jajo.Cms.sln'
 end
 
+task :tests do |b|
+  FileUtils.mkdir_p 'build/tests'
+  FileUtils.rm_rf(Dir.glob('build/tests/*'))
+  testIndex = 0
+  FileList['**/*.Tests/bin/' + Configuration + '/*.Tests.dll'].each do |test|
+	resultFile = 'build/tests/TestResult' + testIndex.to_s + '.xml'
+    system 'packages/Fixie/lib/net45/Fixie.Console.x86.exe', test, '--xUnitXml', resultFile
+	testIndex = testIndex + 1
+  end
+end
+
 task :paket_bootstrap do
   system 'tools/paket.bootstrapper.exe', clr_command: true unless File.exists? 'tools/paket.exe'
 end
@@ -51,4 +62,6 @@ end
 
 task :default => :compile
 
-task :ci => [:default, :create_nugets]
+task :test => [:default, :tests]
+
+task :ci => [:default, :tests, :create_nugets]
