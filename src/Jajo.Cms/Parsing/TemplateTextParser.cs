@@ -33,7 +33,7 @@ namespace Jajo.Cms.Parsing
 
             var templateName = templateNameGroup.Value;
 
-            var template = _templateStorage.Load(templateName);
+            var template = _templateStorage.Load(templateName, theme);
 
             if (template == null)
                 return "";

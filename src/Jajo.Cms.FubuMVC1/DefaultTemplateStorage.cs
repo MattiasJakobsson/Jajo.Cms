@@ -1,19 +1,13 @@
 ﻿using Jajo.Cms.Templates;
+using Jajo.Cms.Theme;
 
 namespace Jajo.Cms.FubuMVC1
 {
     public class DefaultTemplateStorage : ITemplateStorage
     {
-        private readonly ICmsContext _cmsContext;
-
-        public DefaultTemplateStorage(ICmsContext cmsContext)
+        public CmsTemplate Load(string name, ITheme theme)
         {
-            _cmsContext = cmsContext;
-        }
-
-        public CmsTemplate Load(string name)
-        {
-            return new CmsTemplate(name, "", "text/html", _cmsContext.GetCurrentTheme().GetType());
+            return new CmsTemplate(name, "", "text/html", theme.GetType());
         }
     }
 }
