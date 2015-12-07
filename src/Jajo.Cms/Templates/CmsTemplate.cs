@@ -6,22 +6,30 @@ namespace Jajo.Cms.Templates
 {
     public class CmsTemplate : IRequireContexts, IBelongToTheme
     {
-        public string Name { get; set; }
-        public string Body { get; set; }
-        public string Category { get; set; }
-        public string ContentType { get; set; }
-        public IEnumerable<Type> RequiredContexts { get; set; }
-        public Type ForTheme { get; set; }
-        public IDictionary<string, object> Settings { get; set; }
+        private readonly Type _forTheme;
+        private readonly IEnumerable<Type> _requiredContexts;
+
+        public CmsTemplate(string name, string body, string contentType, Type forTheme, params Type[] requiredContexts)
+        {
+            _forTheme = forTheme;
+            _requiredContexts = requiredContexts;
+            Name = name;
+            Body = body;
+            ContentType = contentType;
+        }
+
+        public string Name { get; private set; }
+        public string Body { get; private set; }
+        public string ContentType { get; private set; }
         
         public IEnumerable<Type> GetRequiredContexts()
         {
-            return RequiredContexts;
+            return _requiredContexts;
         }
 
         public Type GetTheme()
         {
-            return ForTheme;
+            return _forTheme;
         }
     }
 }

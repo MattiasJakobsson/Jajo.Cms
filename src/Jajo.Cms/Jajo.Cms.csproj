@@ -101,7 +101,6 @@
     <Compile Include="Rendering\TextRenderInformation.cs" />
     <Compile Include="Templates\CmsTemplate.cs" />
     <Compile Include="Templates\ITemplateStorage.cs" />
-    <Compile Include="Templates\TemplateSettingsContext.cs" />
     <Compile Include="Theme\IBelongToTheme.cs" />
     <Compile Include="Theme\ITheme.cs" />
     <Compile Include="Endpoints\ICmsEndpoint.cs" />
