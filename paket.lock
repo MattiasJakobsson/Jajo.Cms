@@ -14,19 +14,19 @@ NUGET
     structuremap (2.6.4.1)
   remote: https://www.myget.org/F/jakobsson/api/v2
   specs:
-    UStack.Infrastructure (0.0.0.413)
+    UStack.Infrastructure (0.0.0.414)
       BCrypt.Net
       EventStore.Client
       Newtonsoft.Json (>= 6.0.8.0)
       UStack.RequestGraph
       structuremap (>= 2.6.4.1)
-    UStack.Infrastructure.RavenDB (0.0.0.413)
+    UStack.Infrastructure.RavenDB (0.0.0.414)
       RavenDB.Client
       UStack.Infrastructure
       structuremap
-    UStack.Infrastructure.Web (0.0.0.413)
+    UStack.Infrastructure.Web (0.0.0.414)
       FluentValidation
       Spark
       UStack.Infrastructure.RavenDB
       UStack.RequestGraph
-    UStack.RequestGraph (0.0.0.413)
+    UStack.RequestGraph (0.0.0.414)
