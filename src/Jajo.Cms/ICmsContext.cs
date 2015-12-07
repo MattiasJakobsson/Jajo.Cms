@@ -9,15 +9,14 @@ namespace Jajo.Cms
         object Resolve(Type serviceType);
         TService Resolve<TService>();
 
-        IEnumerable<IRequestContext> FindCurrentContexts();
-        IRequestContext FindContext(string type);
-        TContext FirstContextOf<TContext>(Func<TContext, bool> filter = null) where TContext : IRequestContext;
-        TContext LastContextOf<TContext>(Func<TContext, bool> filter = null) where TContext : IRequestContext;
-        IEnumerable<TContext> FindContexts<TContext>(Func<TContext, bool> filter = null) where TContext : IRequestContext;
-        void EnterContext(Guid id, IRequestContext context);
+        IEnumerable<RequestContext> FindCurrentContexts();
+        RequestContext FindContext(string name);
+        RequestContext FirstContextOf(string name, Func<RequestContext, bool> filter = null);
+        RequestContext LastContextOf(string name, Func<RequestContext, bool> filter = null);
+        IEnumerable<RequestContext> FindContexts(string name, Func<RequestContext, bool> filter = null);
+        void EnterContext(Guid id, RequestContext context);
         void ExitContext(Guid id);
-        bool HasContext<TContext>() where TContext : IRequestContext;
-        bool HasContext(Type contextType);
+        bool HasContext(string name);
 
         IEnumerable<TInput> Filter<TInput>(IEnumerable<TInput> input, ITheme theme);
         bool CanRender(object input, ITheme theme);

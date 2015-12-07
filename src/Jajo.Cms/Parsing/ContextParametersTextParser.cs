@@ -29,16 +29,23 @@ namespace Jajo.Cms.Parsing
             if (contextNameGroup == null || string.IsNullOrEmpty(contextNameGroup.Value))
                 return "";
 
-            var contextName = match.Groups["contextName"].Value;
+            var path = match.Groups["contextName"].Value;
 
-            var contextType = contextName.Split('.').FirstOrDefault();
+            var parts = path.Split('.');
 
-            var requestContext = context.FindContext(contextType);
+            var contextName = parts.FirstOrDefault();
+
+            var requestContext = context.FindContext(contextName);
 
             if (requestContext == null)
                 return null;
 
-            var value = _findParameterValueFromModel.Find(contextName.Substring(string.Format("{0}.", contextType).Length), requestContext);
+            var settingsName = parts.Skip(1).FirstOrDefault();
+
+            if (!requestContext.Data.ContainsKey(settingsName))
+                return null;
+
+            var value = _findParameterValueFromModel.Find(path.Substring(string.Format("{0}.{1}.", contextName, settingsName).Length), requestContext.Data[settingsName]);
 
             var stringValue = value as string;
 

@@ -2,13 +2,14 @@
 
 namespace Jajo.Cms.Components
 {
-    public class ComponentSettingsContext : IRequestContext
+    public class ComponentSettingsContext
     {
-        public ComponentSettingsContext(IDictionary<string, object> settings)
+        public static RequestContext Build(IDictionary<string, object> settings)
         {
-            Settings = settings;
+            return new RequestContext(typeof(ComponentSettingsContext).Name, new Dictionary<string, object>
+            {
+                {"Settings", settings}
+            });
         }
-
-        public IDictionary<string, object> Settings { get; private set; }
     }
 }

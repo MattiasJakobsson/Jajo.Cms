@@ -30,7 +30,7 @@ namespace Jajo.Cms.Rendering
                 .FirstOrDefault();
 
             if (themeEndpoint == null)
-                return new RenderResult("text/plain", x => { }, new Dictionary<Guid, IRequestContext>(), context);
+                return new RenderResult("text/plain", x => { }, new Dictionary<Guid, RequestContext>(), context);
 
             var settings = themeEndpoint.GetDefaultSettings();
             var endpointConfiguration = _endpointConfigurationStorage.Load(theme.GetName(), theme);
@@ -44,10 +44,10 @@ namespace Jajo.Cms.Rendering
             var renderInformation = themeEndpoint.Render(input, context, settings);
 
             if (renderInformation == null)
-                return new RenderResult("text/plain", x => { }, new Dictionary<Guid, IRequestContext>(), context);
+                return new RenderResult("text/plain", x => { }, new Dictionary<Guid, RequestContext>(), context);
 
             var contexts = renderInformation.Contexts.ToDictionary(x => Guid.NewGuid(), x => x);
-            contexts[Guid.NewGuid()] = new EndpointSettingsContext(settings);
+            contexts[Guid.NewGuid()] = EndpointSettingsContext.Build(settings);
 
             return new RenderResult(renderInformation.ContentType, x =>
             {
@@ -60,15 +60,15 @@ namespace Jajo.Cms.Rendering
         public IRenderResult RenderComponent(ICmsComponent component, IDictionary<string, object> settings, ICmsContext context, ITheme theme)
         {
             if (!context.CanRender(component, theme))
-                return new RenderResult("text/plain", x => { }, new Dictionary<Guid, IRequestContext>(), context);
+                return new RenderResult("text/plain", x => { }, new Dictionary<Guid, RequestContext>(), context);
 
             var renderInformation = component.Render(context, settings);
 
             if (renderInformation == null)
-                return new RenderResult("text/plain", x => { }, new Dictionary<Guid, IRequestContext>(), context);
+                return new RenderResult("text/plain", x => { }, new Dictionary<Guid, RequestContext>(), context);
 
             var contexts = renderInformation.Contexts.ToDictionary(x => Guid.NewGuid(), x => x);
-            contexts[Guid.NewGuid()] = new ComponentSettingsContext(settings);
+            contexts[Guid.NewGuid()] = ComponentSettingsContext.Build(settings);
 
             return new RenderResult(renderInformation.ContentType, x =>
             {
@@ -81,9 +81,9 @@ namespace Jajo.Cms.Rendering
         public IRenderResult RenderTemplate(CmsTemplate template, IDictionary<string, object> settings, ICmsContext context, ITheme theme)
         {
             if (!context.CanRender(template, theme))
-                return new RenderResult("text/plain", x => { }, new Dictionary<Guid, IRequestContext>(), context);
+                return new RenderResult("text/plain", x => { }, new Dictionary<Guid, RequestContext>(), context);
 
-            var contexts = new Dictionary<Guid, IRequestContext>();
+            var contexts = new Dictionary<Guid, RequestContext>();
 
             var result = ParseText(template.Body, context, theme);
 
@@ -104,7 +104,7 @@ namespace Jajo.Cms.Rendering
                 text = textParser.Parse(text, this, context, theme, x => ParseText(x, context, theme, useOptionsForNextLevel ? options : null).Read());
             }
 
-            return new RenderResult("text/html", x => x.Write(text), new Dictionary<Guid, IRequestContext>(), context);
+            return new RenderResult("text/html", x => x.Write(text), new Dictionary<Guid, RequestContext>(), context);
         }
 
         private interface IRenderer
@@ -130,10 +130,10 @@ namespace Jajo.Cms.Rendering
         private class RenderResult : IRenderResult
         {
             private readonly Action<TextWriter> _render;
-            private readonly IDictionary<Guid, IRequestContext> _requestContexts;
+            private readonly IDictionary<Guid, RequestContext> _requestContexts;
             private readonly ICmsContext _cmsContext;
 
-            public RenderResult(string contentType, Action<TextWriter> render, IDictionary<Guid, IRequestContext> requestContexts, ICmsContext cmsContext)
+            public RenderResult(string contentType, Action<TextWriter> render, IDictionary<Guid, RequestContext> requestContexts, ICmsContext cmsContext)
             {
                 ContentType = contentType;
                 _render = render;

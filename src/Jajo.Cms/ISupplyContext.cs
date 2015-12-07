@@ -4,6 +4,6 @@ namespace Jajo.Cms
 {
     public interface ISupplyContext
     {
-        IEnumerable<IRequestContext> GetContexts();
+        IEnumerable<RequestContext> GetContexts();
     }
 }

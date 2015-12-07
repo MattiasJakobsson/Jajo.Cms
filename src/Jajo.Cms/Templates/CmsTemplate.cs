@@ -7,9 +7,9 @@ namespace Jajo.Cms.Templates
     public class CmsTemplate : IRequireContexts, IBelongToTheme
     {
         private readonly Type _forTheme;
-        private readonly IEnumerable<Type> _requiredContexts;
+        private readonly IEnumerable<string> _requiredContexts;
 
-        public CmsTemplate(string name, string body, string contentType, Type forTheme, params Type[] requiredContexts)
+        public CmsTemplate(string name, string body, string contentType, Type forTheme, params string[] requiredContexts)
         {
             _forTheme = forTheme;
             _requiredContexts = requiredContexts;
@@ -22,7 +22,7 @@ namespace Jajo.Cms.Templates
         public string Body { get; private set; }
         public string ContentType { get; private set; }
         
-        public IEnumerable<Type> GetRequiredContexts()
+        public IEnumerable<string> GetRequiredContexts()
         {
             return _requiredContexts;
         }

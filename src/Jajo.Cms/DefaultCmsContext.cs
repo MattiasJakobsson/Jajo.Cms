@@ -8,7 +8,7 @@ namespace Jajo.Cms
 {
     public class DefaultCmsContext : ICmsContext
     {
-        private readonly IDictionary<Guid, IRequestContext> _currentContexts = new Dictionary<Guid, IRequestContext>();
+        private readonly IDictionary<Guid, RequestContext> _currentContexts = new Dictionary<Guid, RequestContext>();
         private readonly Func<Type, object> _resolve;
         private readonly IFeatureValidator _featureValidator;
         private readonly ITheme _theme;
@@ -30,34 +30,34 @@ namespace Jajo.Cms
             return (TService)_resolve(typeof(TService));
         }
 
-        public IEnumerable<IRequestContext> FindCurrentContexts()
+        public IEnumerable<RequestContext> FindCurrentContexts()
         {
             return _currentContexts.Select(x => x.Value).ToList();
         }
 
-        public IRequestContext FindContext(string type)
+        public RequestContext FindContext(string name)
         {
-            return _currentContexts.Where(x => IsContextMatch(x.Value.GetType(), type)).Select(x => x.Value).FirstOrDefault();
+            return _currentContexts.Where(x => x.Value.Name == name).Select(x => x.Value).FirstOrDefault();
         }
 
-        public TContext FirstContextOf<TContext>(Func<TContext, bool> filter = null) where TContext : IRequestContext
+        public RequestContext FirstContextOf(string name, Func<RequestContext, bool> filter = null)
         {
-            return FindContexts(filter).FirstOrDefault();
+            return FindContexts(name, filter).FirstOrDefault();
         }
 
-        public TContext LastContextOf<TContext>(Func<TContext, bool> filter = null) where TContext : IRequestContext
+        public RequestContext LastContextOf(string name, Func<RequestContext, bool> filter = null)
         {
-            return FindContexts(filter).LastOrDefault();
+            return FindContexts(name, filter).LastOrDefault();
         }
 
-        public IEnumerable<TContext> FindContexts<TContext>(Func<TContext, bool> filter = null) where TContext : IRequestContext
+        public IEnumerable<RequestContext> FindContexts(string name, Func<RequestContext, bool> filter = null)
         {
             filter = filter ?? (x => true);
 
-            return FindCurrentContexts().OfType<TContext>().Where(filter);
+            return FindCurrentContexts().Where(x => x.Name == name && filter(x));
         }
 
-        public void EnterContext(Guid id, IRequestContext context)
+        public void EnterContext(Guid id, RequestContext context)
         {
             _currentContexts[id] = context;
         }
@@ -68,14 +68,9 @@ namespace Jajo.Cms
                 _currentContexts.Remove(id);
         }
 
-        public bool HasContext<TContext>() where TContext : IRequestContext
+        public bool HasContext(string name)
         {
-            return HasContext(typeof(TContext));
-        }
-
-        public bool HasContext(Type contextType)
-        {
-            return _currentContexts.Any(x => x.Value.GetType() == contextType);
+            return _currentContexts.Any(x => x.Value.Name == name);
         }
 
         public IEnumerable<TInput> Filter<TInput>(IEnumerable<TInput> input, ITheme theme)
@@ -148,21 +143,6 @@ namespace Jajo.Cms
 
                 parentType = parentType.BaseType;
             }
-        }
-
-        private static bool IsContextMatch(Type contextType, string requiredType)
-        {
-            var currentType = contextType;
-
-            while (currentType != null)
-            {
-                if (string.Equals(currentType.Name, requiredType, StringComparison.OrdinalIgnoreCase))
-                    return true;
-
-                currentType = currentType.BaseType;
-            }
-
-            return contextType.GetInterfaces().Any(x => string.Equals(x.Name, requiredType, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

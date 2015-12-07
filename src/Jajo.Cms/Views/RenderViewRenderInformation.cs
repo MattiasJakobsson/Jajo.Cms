@@ -27,7 +27,7 @@ namespace Jajo.Cms.Views
             view.Render(renderTo, information.ContentType);
         }
 
-        private static CmsView FindViewFrom(ICmsViewEngine viewEngine, string viewName, object model, ITheme theme, IEnumerable<IRequestContext> contexts, bool useMaster)
+        private static CmsView FindViewFrom(ICmsViewEngine viewEngine, string viewName, object model, ITheme theme, IEnumerable<RequestContext> contexts, bool useMaster)
         {
             var findViewMethod = viewEngine
                 .GetType()

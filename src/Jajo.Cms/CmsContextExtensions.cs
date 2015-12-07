@@ -4,9 +4,9 @@ namespace Jajo.Cms
 {
     public static class CmsContextExtensions
     {
-        public static TResult GetDataFromContext<TContext, TResult>(this ICmsContext cmsContext, Func<TContext, TResult> getResult) where TContext : class, IRequestContext
+        public static TResult GetDataFromContext<TResult>(this ICmsContext cmsContext, string name, Func<RequestContext, TResult> getResult)
         {
-            var context = cmsContext.LastContextOf<TContext>();
+            var context = cmsContext.LastContextOf(name);
 
             return context == null ? default(TResult) : getResult(context);
         }

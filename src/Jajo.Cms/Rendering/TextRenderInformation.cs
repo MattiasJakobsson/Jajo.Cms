@@ -4,7 +4,7 @@ namespace Jajo.Cms.Rendering
 {
     public class TextRenderInformation : IRenderInformation
     {
-        public TextRenderInformation(IEnumerable<IRequestContext> contexts, string text, string contentType)
+        public TextRenderInformation(IEnumerable<RequestContext> contexts, string text, string contentType)
         {
             Contexts = contexts;
             Text = text;
@@ -12,7 +12,7 @@ namespace Jajo.Cms.Rendering
         }
 
         public string ContentType { get; private set; }
-        public IEnumerable<IRequestContext> Contexts { get; private set; }
+        public IEnumerable<RequestContext> Contexts { get; private set; }
         public string Text { get; private set; }
     }
 }

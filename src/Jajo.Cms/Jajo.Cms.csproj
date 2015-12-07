@@ -51,6 +51,7 @@
     <Compile Include="Rendering\JsonRenderInformation.cs" />
     <Compile Include="Rendering\ParseTextOptions.cs" />
     <Compile Include="Rendering\RenderJsonRenderInformation.cs" />
+    <Compile Include="RequestContext.cs" />
     <Compile Include="TypeExtensions.cs" />
     <Compile Include="ISupplyContext.cs" />
     <Compile Include="CmsContextExtensions.cs" />
@@ -69,7 +70,6 @@
     <Compile Include="Files\MaxWidthTransformationSetting.cs" />
     <Compile Include="Files\UploadFile.cs" />
     <Compile Include="ICmsContext.cs" />
-    <Compile Include="IRequestContext.cs" />
     <Compile Include="Menu\BreadCrumb.cs" />
     <Compile Include="Menu\IBuildMenu.cs" />
     <Compile Include="Menu\IAmBreadCrumb.cs" />

@@ -2,13 +2,14 @@
 
 namespace Jajo.Cms.Endpoints
 {
-    public class EndpointSettingsContext : IRequestContext
+    public class EndpointSettingsContext
     {
-        public EndpointSettingsContext(IDictionary<string, object> settings)
+        public static RequestContext Build(IDictionary<string, object> settings)
         {
-            Settings = settings;
+            return new RequestContext(typeof(EndpointSettingsContext).Name, new Dictionary<string, object>
+            {
+                {"Settings", settings}
+            });
         }
-
-        public IDictionary<string, object> Settings { get; private set; } 
     }
 }

@@ -26,7 +26,7 @@ namespace Jajo.Cms.FubuMVC1.Views
             _partialInvoker = partialInvoker;
         }
 
-        public CmsView FindView<TModel>(string viewName, TModel model, ITheme theme, IEnumerable<IRequestContext> contexts, bool useMaster) where TModel : class
+        public CmsView FindView<TModel>(string viewName, TModel model, ITheme theme, IEnumerable<RequestContext> contexts, bool useMaster) where TModel : class
         {
             return new CmsView((x, y) =>
             {
