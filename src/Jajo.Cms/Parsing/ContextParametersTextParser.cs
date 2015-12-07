@@ -54,7 +54,7 @@ namespace Jajo.Cms.Parsing
 
         protected override IEnumerable<Regex> GetRegexes()
         {
-            yield return new Regex(@"\$\{Contexts\.((?<contextName>.[a-z&auml;&aring;&ouml;A-Z&Auml;&Aring;&Ouml;0-9.""\]\[]*))\}", RegexOptions.Compiled);
+            yield return new Regex(@"\!\[Contexts\.((?<contextName>.[a-z&auml;&aring;&ouml;A-Z&Auml;&Aring;&Ouml;0-9.""\]\[]*))\]\!", RegexOptions.Compiled);
         }
     }
 }
