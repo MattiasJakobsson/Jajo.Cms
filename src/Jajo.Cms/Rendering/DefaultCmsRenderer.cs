@@ -85,7 +85,7 @@ namespace Jajo.Cms.Rendering
 
             var contexts = new Dictionary<Guid, RequestContext>();
 
-            var result = ParseText(template.Body, context, theme);
+            var result = ParseText(string.Format("<md>{0}</md>", template.Body), context, theme);
 
             return new RenderResult(string.IsNullOrEmpty(template.ContentType) ? result.ContentType : template.ContentType, x => result.RenderTo(x), contexts, context);
         }
