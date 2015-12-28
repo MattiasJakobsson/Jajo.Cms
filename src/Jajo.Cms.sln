@@ -6,14 +6,10 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{E2169D2B-3902-4EEC-8362-C95C76987C8C}"
 	ProjectSection(SolutionItems) = preProject
 		..\.gitignore = ..\.gitignore
-		..\.semver = ..\.semver
 		..\build.cake = ..\build.cake
 		..\build.ps1 = ..\build.ps1
-		..\Gemfile = ..\Gemfile
-		..\Gemfile.lock = ..\Gemfile.lock
 		..\paket.dependencies = ..\paket.dependencies
 		..\paket.lock = ..\paket.lock
-		..\Rakefile = ..\Rakefile
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jajo.Cms", "Jajo.Cms\Jajo.Cms.csproj", "{19FCA30F-586D-4354-8DD6-A0ACAD57809E}"
