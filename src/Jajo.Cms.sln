@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jajo.Cms.FubuMVC1", "Jajo.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jajo.Cms.Tests", "Jajo.Cms.Tests\Jajo.Cms.Tests.csproj", "{73B8047C-83A4-4D86-94B0-AA4566D2F577}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jajo.Cms.SuperGlue", "Jajo.Cms.SuperGlue\Jajo.Cms.SuperGlue.csproj", "{175A409F-7374-4337-8071-C32FD7C9119E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +38,10 @@ Global
 		{73B8047C-83A4-4D86-94B0-AA4566D2F577}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73B8047C-83A4-4D86-94B0-AA4566D2F577}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73B8047C-83A4-4D86-94B0-AA4566D2F577}.Release|Any CPU.Build.0 = Release|Any CPU
+		{175A409F-7374-4337-8071-C32FD7C9119E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{175A409F-7374-4337-8071-C32FD7C9119E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{175A409F-7374-4337-8071-C32FD7C9119E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{175A409F-7374-4337-8071-C32FD7C9119E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
