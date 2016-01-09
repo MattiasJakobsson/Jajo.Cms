@@ -118,4 +118,10 @@ if (!(Test-Path $CAKE_EXE)) {
 # Start Cake
 Write-Host "Running build script..."
 Invoke-Expression "$CAKE_EXE `"$Script`" -target=`"$Target`" -configuration=`"$Configuration`" -buildnumber=`"$BuildNumber`" -verbosity=`"$Verbosity`" $UseMono $UseDryRun $UseExperimental"
+
+if(!($LASTEXITCODE -eq 0)) {
+	Write-Error $_
+    ##teamcity[buildStatus status='FAILURE']
+}
+
 exit $LASTEXITCODE
