@@ -36,7 +36,6 @@ namespace Jajo.Cms.FubuMVC1
                 x.SetServiceIfNone<ICmsRenderer, DefaultCmsRenderer>();
                 x.SetServiceIfNone<IFindParameterValueFromModel, DefaultParameterValueFinder>();
                 x.SetServiceIfNone<ITemplateStorage, DefaultTemplateStorage>();
-                x.SetServiceIfNone<IThemeSettings, DefaultThemeSettings>();
             });
 
             registry.Policies.Add<ConfigureWidgetBehaviorChain>();

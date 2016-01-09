@@ -11,13 +11,15 @@ namespace Jajo.Cms
         private readonly IDictionary<Guid, RequestContext> _currentContexts = new Dictionary<Guid, RequestContext>();
         private readonly Func<Type, object> _resolve;
         private readonly IFeatureValidator _featureValidator;
-        private readonly ITheme _theme;
+        private readonly IEnumerable<ITheme> _themes;
+        private readonly Func<string> _findCategoryForCurrentContext;
 
-        public DefaultCmsContext(Func<Type, object> resolve, IFeatureValidator featureValidator, ITheme theme)
+        public DefaultCmsContext(Func<Type, object> resolve, Func<string> findCategoryForCurrentContext, IFeatureValidator featureValidator, IEnumerable<ITheme> themes)
         {
             _resolve = resolve;
             _featureValidator = featureValidator;
-            _theme = theme;
+            _themes = themes;
+            _findCategoryForCurrentContext = findCategoryForCurrentContext;
         }
 
         public object Resolve(Type serviceType)
@@ -95,9 +97,11 @@ namespace Jajo.Cms
             return themeTypes.Any(x => DoesItemBelongToTheme(input, x));
         }
 
-        public ITheme GetCurrentTheme()
+        public ITheme GetCurrentTheme(string category = null)
         {
-            return _theme;
+            category = category ?? _findCategoryForCurrentContext();
+
+            return _themes.FirstOrDefault(x => x.GetCategory() == category && x.IsActive());
         }
 
         private bool IsFeaturesEnabledFor(object input)

@@ -6,6 +6,7 @@ namespace Jajo.Cms.Theme
     {
         string GetName();
         string GetCategory();
+        bool IsActive();
 
         IDictionary<string, object> GetDefaultSettings();
         bool IsTranslationKeyForTheme(string key);

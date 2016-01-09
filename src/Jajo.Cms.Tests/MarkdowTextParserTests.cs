@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Jajo.Cms.Endpoints;
 using Jajo.Cms.Parsing;
 using Jajo.Cms.Rendering;
+using Jajo.Cms.Theme;
 using Should;
 
 namespace Jajo.Cms.Tests
@@ -40,7 +41,7 @@ namespace Jajo.Cms.Tests
         {
             return _parser.Parse(input,
                 new DefaultCmsRenderer(new List<ICmsEndpoint>(), new List<ITextParser> { _parser }, new FakeEndpointConfigurationStorage()),
-                new DefaultCmsContext(x => null, null, new FakeTheme()), new FakeTheme(), x => x);
+                new DefaultCmsContext(x => null, () => null, null, new List<ITheme> { new FakeTheme() }), new FakeTheme(), x => x);
         }
     }
 }

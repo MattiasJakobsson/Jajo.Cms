@@ -15,6 +15,11 @@ namespace Jajo.Cms.Tests
             return "";
         }
 
+        public bool IsActive()
+        {
+            return true;
+        }
+
         public IDictionary<string, object> GetDefaultSettings()
         {
             return new Dictionary<string, object>();

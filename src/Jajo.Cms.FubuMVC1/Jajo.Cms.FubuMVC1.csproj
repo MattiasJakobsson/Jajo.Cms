@@ -78,7 +78,6 @@
     <Compile Include="CmsFubuRegistry.cs" />
     <Compile Include="ConfigureWidgetBehaviorChain.cs" />
     <Compile Include="DefaultTemplateStorage.cs" />
-    <Compile Include="DefaultThemeSettings.cs" />
     <Compile Include="Endpoints\CmsEndpointWriter.cs" />
     <Compile Include="Endpoints\ConfigureEndpointBehaviorChain.cs" />
     <Compile Include="Endpoints\DefaultEndpointConfigurationStorage.cs" />
@@ -87,7 +86,6 @@
     <Compile Include="Features\FeatureRegistryExtension.cs" />
     <Compile Include="Files\DefaultFileUploader.cs" />
     <Compile Include="Files\FilesRegistry.cs" />
-    <Compile Include="IThemeSettings.cs" />
     <Compile Include="Localization\DefaultLocalizationNamespaceFinder.cs" />
     <Compile Include="Localization\DefaultTextLocalizer.cs" />
     <Compile Include="Localization\LoadLocalizationsOnStartup.cs" />
@@ -279,6 +277,9 @@
         <Reference Include="Raven.Client.Lightweight">
           <HintPath>..\..\packages\RavenDB.Client\lib\net45\Raven.Client.Lightweight.dll</HintPath>
           <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.ComponentModel.Composition">
           <Paket>True</Paket>
         </Reference>
       </ItemGroup>

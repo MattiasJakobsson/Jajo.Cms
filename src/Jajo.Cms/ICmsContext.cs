@@ -21,6 +21,6 @@ namespace Jajo.Cms
         IEnumerable<TInput> Filter<TInput>(IEnumerable<TInput> input, ITheme theme);
         bool CanRender(object input, ITheme theme);
 
-        ITheme GetCurrentTheme();
+        ITheme GetCurrentTheme(string category = null);
     }
 }
