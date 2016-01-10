@@ -101,7 +101,7 @@ namespace Jajo.Cms
         {
             category = category ?? _findCategoryForCurrentContext();
 
-            return _themes.FirstOrDefault(x => x.GetCategory() == category && x.IsActive());
+            return _themes.FirstOrDefault(x => x.GetCategory() == category && x.IsActive()) ?? new NoTheme(category);
         }
 
         private bool IsFeaturesEnabledFor(object input)
@@ -146,6 +146,41 @@ namespace Jajo.Cms
                     yield return parentType;
 
                 parentType = parentType.BaseType;
+            }
+        }
+
+        private class NoTheme : ITheme
+        {
+            private readonly string _category;
+
+            public NoTheme(string category)
+            {
+                _category = category;
+            }
+
+            public string GetName()
+            {
+                return "NoTheme";
+            }
+
+            public string GetCategory()
+            {
+                return _category;
+            }
+
+            public bool IsActive()
+            {
+                return true;
+            }
+
+            public IDictionary<string, object> GetDefaultSettings()
+            {
+                return new Dictionary<string, object>();
+            }
+
+            public bool IsTranslationKeyForTheme(string key)
+            {
+                return false;
             }
         }
     }

@@ -17,9 +17,6 @@ namespace Jajo.Cms.FubuMVC1
 
             theme = theme ?? cmsContext.GetCurrentTheme();
 
-            if (theme == null)
-                return new HtmlString("");
-
             var result = cmsRenderer.RenderTemplate(template, settings, cmsContext, theme);
 
             return new HtmlString(result.Read());
@@ -32,9 +29,6 @@ namespace Jajo.Cms.FubuMVC1
 
             theme = theme ?? cmsContext.GetCurrentTheme();
 
-            if(theme == null)
-                return new HtmlString("");
-
             var result = cmsRenderer.RenderComponent(component, settings ?? new Dictionary<string, object>(), cmsContext, theme);
 
             return new HtmlString(result.Read());
@@ -46,9 +40,6 @@ namespace Jajo.Cms.FubuMVC1
             var cmsContext = page.ServiceLocator.GetInstance<ICmsContext>();
 
             theme = theme ?? cmsContext.GetCurrentTheme();
-
-            if (theme == null)
-                return new HtmlString("");
 
             var result = cmsRenderer.ParseText(text, cmsContext, theme, options);
 
