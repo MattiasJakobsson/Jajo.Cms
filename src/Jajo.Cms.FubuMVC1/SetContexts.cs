@@ -26,8 +26,7 @@ namespace Jajo.Cms.FubuMVC1
             foreach (var context in contexts)
                 _cmsContext.EnterContext(context.Key, context.Value);
 
-            if (_innerBehavior != null)
-                _innerBehavior.Invoke();
+            _innerBehavior?.Invoke();
 
             foreach (var context in contexts)
                 _cmsContext.ExitContext(context.Key);
@@ -41,8 +40,7 @@ namespace Jajo.Cms.FubuMVC1
             foreach (var context in contexts)
                 _cmsContext.EnterContext(context.Key, context.Value);
 
-            if (_innerBehavior != null)
-                _innerBehavior.InvokePartial();
+            _innerBehavior?.InvokePartial();
 
             foreach (var context in contexts)
                 _cmsContext.ExitContext(context.Key);

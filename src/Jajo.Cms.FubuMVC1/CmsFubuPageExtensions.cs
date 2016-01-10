@@ -15,7 +15,12 @@ namespace Jajo.Cms.FubuMVC1
             var cmsRenderer = page.ServiceLocator.GetInstance<ICmsRenderer>();
             var cmsContext = page.ServiceLocator.GetInstance<ICmsContext>();
 
-            var result = cmsRenderer.RenderTemplate(template, settings, cmsContext, theme ?? cmsContext.GetCurrentTheme());
+            theme = theme ?? cmsContext.GetCurrentTheme();
+
+            if (theme == null)
+                return new HtmlString("");
+
+            var result = cmsRenderer.RenderTemplate(template, settings, cmsContext, theme);
 
             return new HtmlString(result.Read());
         }
@@ -25,7 +30,12 @@ namespace Jajo.Cms.FubuMVC1
             var cmsRenderer = page.ServiceLocator.GetInstance<ICmsRenderer>();
             var cmsContext = page.ServiceLocator.GetInstance<ICmsContext>();
 
-            var result = cmsRenderer.RenderComponent(component, settings ?? new Dictionary<string, object>(), cmsContext, theme ?? cmsContext.GetCurrentTheme());
+            theme = theme ?? cmsContext.GetCurrentTheme();
+
+            if(theme == null)
+                return new HtmlString("");
+
+            var result = cmsRenderer.RenderComponent(component, settings ?? new Dictionary<string, object>(), cmsContext, theme);
 
             return new HtmlString(result.Read());
         }
@@ -35,7 +45,12 @@ namespace Jajo.Cms.FubuMVC1
             var cmsRenderer = page.ServiceLocator.GetInstance<ICmsRenderer>();
             var cmsContext = page.ServiceLocator.GetInstance<ICmsContext>();
 
-            var result = cmsRenderer.ParseText(text, cmsContext, theme ?? cmsContext.GetCurrentTheme(), options);
+            theme = theme ?? cmsContext.GetCurrentTheme();
+
+            if (theme == null)
+                return new HtmlString("");
+
+            var result = cmsRenderer.ParseText(text, cmsContext, theme, options);
 
             return new HtmlString(result.Read());
         }

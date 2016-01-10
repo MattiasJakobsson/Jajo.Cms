@@ -14,19 +14,13 @@ namespace Jajo.Cms.FubuMVC1
             {
                 var currentChain = x.TryGetInstance<ICurrentChain>();
 
-                if (currentChain == null)
-                    return null;
-
-                var attribute = currentChain
-                    .Current
-                    .FirstCall()
-                    .HandlerType
-                    .Assembly
+                var attribute = currentChain?.Current
+                    .FirstCall().HandlerType.Assembly
                     .GetCustomAttributes(typeof (ThemeCategoryAttribute), true)
                     .OfType<ThemeCategoryAttribute>()
                     .FirstOrDefault();
 
-                return attribute != null ? attribute.Category : null;
+                return attribute?.Category;
             }, x.GetInstance<IFeatureValidator>(), x.GetAllInstances<ITheme>()));
         } 
     }
