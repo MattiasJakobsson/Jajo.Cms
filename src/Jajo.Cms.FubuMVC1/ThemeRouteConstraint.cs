@@ -1,26 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Routing;
 using Jajo.Cms.Theme;
-using StructureMap;
 
 namespace Jajo.Cms.FubuMVC1
 {
     public class ThemeRouteConstraint : IRouteConstraint
     {
         private readonly Type _requiredActiveTheme;
-        private readonly IContainer _container;
+        private readonly Func<IEnumerable<ITheme>> _getThemes;
 
-        public ThemeRouteConstraint(Type requiredActiveTheme, IContainer container)
+        public ThemeRouteConstraint(Type requiredActiveTheme, Func<IEnumerable<ITheme>> getThemes)
         {
             _requiredActiveTheme = requiredActiveTheme;
-            _container = container;
+            _getThemes = getThemes;
         }
 
         public bool Match(HttpContextBase httpContext, Route route, string parameterName, RouteValueDictionary values, RouteDirection routeDirection)
         {
-            var themes = _container.GetAllInstances<ITheme>();
+            var themes = _getThemes();
 
             return themes.Any(x => x.GetType() == _requiredActiveTheme && x.IsActive());
         }
