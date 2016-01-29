@@ -85,7 +85,7 @@ namespace Jajo.Cms.Rendering
 
             var contexts = new Dictionary<Guid, RequestContext>();
 
-            var result = ParseText(string.Format("<md>{0}</md>", template.Body), context, theme);
+            var result = ParseText($"<md>{template.Body}</md>", context, theme);
 
             return new RenderResult(string.IsNullOrEmpty(template.ContentType) ? result.ContentType : template.ContentType, x => result.RenderTo(x), contexts, context);
         }
@@ -101,7 +101,14 @@ namespace Jajo.Cms.Rendering
             {
                 var useOptionsForNextLevel = options != null && !options.FilterOnlyFirstLevel;
 
-                text = textParser.Parse(text, this, context, theme, x => ParseText(x, context, theme, useOptionsForNextLevel ? options : null).Read());
+                try
+                {
+                    text = textParser.Parse(text, this, context, theme, x => ParseText(x, context, theme, useOptionsForNextLevel ? options : null).Read());
+                }
+                catch (Exception)
+                {
+                    //TODO:Log exception
+                }
             }
 
             return new RenderResult("text/html", x => x.Write(text), new Dictionary<Guid, RequestContext>(), context);
@@ -141,7 +148,7 @@ namespace Jajo.Cms.Rendering
                 _cmsContext = cmsContext;
             }
 
-            public string ContentType { get; private set; }
+            public string ContentType { get; }
 
             public void RenderTo(TextWriter writer)
             {

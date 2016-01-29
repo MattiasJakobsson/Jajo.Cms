@@ -43,7 +43,7 @@ namespace Jajo.Cms.Parsing
 
             var settingsGroup = match.Groups["settings"];
 
-            if (settingsGroup != null && !string.IsNullOrEmpty(settingsGroup.Value))
+            if (!string.IsNullOrEmpty(settingsGroup?.Value))
             {
                 var settingsJson = settingsGroup.Value;
 
