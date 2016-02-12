@@ -14,8 +14,11 @@ namespace Jajo.Cms.FubuMVC1
             {
                 var currentChain = x.TryGetInstance<ICurrentChain>();
 
-                var attribute = currentChain?.Current
-                    .FirstCall().HandlerType.Assembly
+                var attribute = currentChain?
+                    .Current?
+                    .FirstCall()?
+                    .HandlerType
+                    .Assembly
                     .GetCustomAttributes(typeof (ThemeCategoryAttribute), true)
                     .OfType<ThemeCategoryAttribute>()
                     .FirstOrDefault();
