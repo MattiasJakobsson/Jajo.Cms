@@ -5,6 +5,7 @@ nuget Fixie
 nuget ImageProcessor
 nuget MarkdownSharp
 nuget Newtonsoft.Json 6.0.8.0
+nuget NLog
 nuget Should
 nuget Spark
 nuget UStack.Infrastructure
