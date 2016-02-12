@@ -55,7 +55,7 @@ namespace Jajo.Cms.FubuMVC1
 
                 logger.Error(ex, "Failed parsing text!");
 
-                return new HtmlString("");
+                return new HtmlString(text);
             }
         }
     }
