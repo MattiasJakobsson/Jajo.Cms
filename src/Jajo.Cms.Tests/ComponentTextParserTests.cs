@@ -24,9 +24,9 @@ namespace Jajo.Cms.Tests
 
         public void when_parsing_component_with_settings()
         {
-            var result = Parse(@"![Components.FakeComponent Settings={Test:""Test"", Asd:1}]!");
+            var result = Parse(@"![Components.FakeComponent Settings={Test:""Test"", Asd:1, Dsa:""asd-dsa""}]!");
 
-            result.ShouldEqual("Test=Test, Asd=1");
+            result.ShouldEqual("Test=Test, Asd=1, Dsa=asd-dsa");
         }
 
         private string Parse(string input)
