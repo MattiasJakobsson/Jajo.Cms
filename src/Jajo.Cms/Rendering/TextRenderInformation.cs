@@ -11,8 +11,8 @@ namespace Jajo.Cms.Rendering
             ContentType = contentType;
         }
 
-        public string ContentType { get; private set; }
-        public IEnumerable<RequestContext> Contexts { get; private set; }
+        public string ContentType { get; }
+        public IEnumerable<RequestContext> Contexts { get; }
         public string Text { get; private set; }
     }
 }

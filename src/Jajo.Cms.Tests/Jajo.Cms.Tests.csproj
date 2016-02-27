@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComponentTextParserTests.cs" />
     <Compile Include="FakeCultureFinder.cs" />
     <Compile Include="FakeEndpointConfigurationStorage.cs" />
     <Compile Include="FakeLocalizer.cs" />

@@ -23,7 +23,7 @@ namespace Jajo.Cms.Rendering
             _endpointConfigurationStorage = endpointConfigurationStorage;
         }
 
-        public IRenderResult RenderEndpoint<TInput>(TInput input, ICmsContext context, ITheme theme) where TInput : ICmsEndpointInput
+        public virtual IRenderResult RenderEndpoint<TInput>(TInput input, ICmsContext context, ITheme theme) where TInput : ICmsEndpointInput
         {
             var themeEndpoint = context
                 .Filter(_themeEndpoints.OfType<ICmsEndpoint<TInput>>(), theme)
@@ -57,7 +57,7 @@ namespace Jajo.Cms.Rendering
             }, contexts, context);
         }
 
-        public IRenderResult RenderComponent(ICmsComponent component, IDictionary<string, object> settings, ICmsContext context, ITheme theme)
+        public virtual IRenderResult RenderComponent(ICmsComponent component, IDictionary<string, object> settings, ICmsContext context, ITheme theme)
         {
             if (!context.CanRender(component, theme))
                 return new RenderResult("text/plain", x => { }, new Dictionary<Guid, RequestContext>(), context);
@@ -78,7 +78,7 @@ namespace Jajo.Cms.Rendering
             }, contexts, context);
         }
 
-        public IRenderResult RenderTemplate(CmsTemplate template, IDictionary<string, object> settings, ICmsContext context, ITheme theme)
+        public virtual IRenderResult RenderTemplate(CmsTemplate template, IDictionary<string, object> settings, ICmsContext context, ITheme theme)
         {
             if (!context.CanRender(template, theme))
                 return new RenderResult("text/plain", x => { }, new Dictionary<Guid, RequestContext>(), context);
@@ -90,7 +90,7 @@ namespace Jajo.Cms.Rendering
             return new RenderResult(string.IsNullOrEmpty(template.ContentType) ? result.ContentType : template.ContentType, x => result.RenderTo(x), contexts, context);
         }
 
-        public IRenderResult ParseText(string text, ICmsContext context, ITheme theme, ParseTextOptions options = null)
+        public virtual IRenderResult ParseText(string text, ICmsContext context, ITheme theme, ParseTextOptions options = null)
         {
             var parsers = _textParsers.ToList();
 
