@@ -32,7 +32,7 @@ namespace Jajo.Cms.FubuMVC1.Menu
             var breadCrumbs = _findBreadCrumbsFor.Get(currentInput).ToList();
 
             var menuItems = _buildMenuTrees
-                .Where(x => x.ForMenu == name)
+                .Where(x => x.ForMenu == name && IsAvailableFor(x))
                 .OrderBy(x => x.Order)
                 .SelectMany(x => x.Build(currentInput))
                 .Where(x => IsAvailableFor(x.Input))
