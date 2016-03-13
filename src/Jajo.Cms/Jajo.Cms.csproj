@@ -44,6 +44,7 @@
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Cache.cs" />
+    <Compile Include="Features\FeatureSettings.cs" />
     <Compile Include="Localization\ILocalizationVisitor.cs" />
     <Compile Include="Localization\LocalizationTextParser.cs" />
     <Compile Include="Localization\IFindCurrentLocalizationNamespace.cs" />
