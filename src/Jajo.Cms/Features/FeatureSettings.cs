@@ -10,7 +10,7 @@ namespace Jajo.Cms.Features
             Features = new List<Feature>();
         }
     
-        public IEnumerable<Feature> Features { get; set; }
+        public ICollection<Feature> Features { get; set; }
     
         public bool IsActive(string feature)
         {
@@ -40,7 +40,7 @@ namespace Jajo.Cms.Features
             }
     
             public string Name { get; set; }
-            public IEnumerable<Feature> Children { get; set; }
+            public ICollection<Feature> Children { get; set; }
             public bool Active { get; set; }
         }
     }
