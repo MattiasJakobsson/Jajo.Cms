@@ -9,36 +9,56 @@ namespace Jajo.Cms.Features
         {
             Features = new List<Feature>();
         }
-    
+
         public ICollection<Feature> Features { get; set; }
-    
+
         public bool IsActive(string feature)
         {
             var parts = new Queue<string>(feature.Split('/'));
             Feature currentFeature = null;
-    
+
             while (parts.Any())
             {
                 var currentPart = parts.Dequeue();
-    
+
                 currentFeature = currentFeature == null
                     ? Features.FirstOrDefault(x => x.Name == currentPart)
                     : currentFeature.Children.FirstOrDefault(x => x.Name == currentPart);
-    
+
                 if (currentFeature == null || !currentFeature.Active)
                     return false;
             }
-    
+
             return true;
         }
-    
+
+        public bool Exists(string feature)
+        {
+            var parts = new Queue<string>(feature.Split('/'));
+            Feature currentFeature = null;
+
+            while (parts.Any())
+            {
+                var currentPart = parts.Dequeue();
+
+                currentFeature = currentFeature == null
+                    ? Features.FirstOrDefault(x => x.Name == currentPart)
+                    : currentFeature.Children.FirstOrDefault(x => x.Name == currentPart);
+
+                if (currentFeature == null)
+                    return false;
+            }
+
+            return true;
+        }
+
         public class Feature
         {
             public Feature()
             {
                 Children = new List<Feature>();
             }
-    
+
             public string Name { get; set; }
             public ICollection<Feature> Children { get; set; }
             public bool Active { get; set; }
