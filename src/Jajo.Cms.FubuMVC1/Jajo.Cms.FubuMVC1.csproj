@@ -82,8 +82,11 @@
     <Compile Include="Endpoints\ConfigureEndpointBehaviorChain.cs" />
     <Compile Include="Endpoints\DefaultEndpointConfigurationStorage.cs" />
     <Compile Include="Features\ConfigureFeatureBehaviorChain.cs" />
+    <Compile Include="Features\DefaultFeatureValidator.cs" />
     <Compile Include="Features\EnsureFeatureIsEnabled.cs" />
     <Compile Include="Features\FeatureRegistryExtension.cs" />
+    <Compile Include="Features\FeatureSettings.cs" />
+    <Compile Include="Features\LoadFeaturesOnStartup.cs" />
     <Compile Include="Files\DefaultFileUploader.cs" />
     <Compile Include="Files\FilesRegistry.cs" />
     <Compile Include="Localization\DefaultLocalizationNamespaceFinder.cs" />

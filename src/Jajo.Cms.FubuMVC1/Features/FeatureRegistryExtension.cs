@@ -1,4 +1,5 @@
 ﻿using FubuMVC.Core;
+using Jajo.Cms.Features;
 
 namespace Jajo.Cms.FubuMVC1.Features
 {
@@ -6,6 +7,8 @@ namespace Jajo.Cms.FubuMVC1.Features
     {
         public void Configure(FubuRegistry registry)
         {
+            registry.Services(x => x.SetServiceIfNone<IFeatureValidator, DefaultFeatureValidator>());
+
             registry.Policies.Add<ConfigureFeatureBehaviorChain>();
         }
     }
