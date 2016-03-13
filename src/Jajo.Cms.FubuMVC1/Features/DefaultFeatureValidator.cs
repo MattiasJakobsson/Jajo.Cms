@@ -23,7 +23,7 @@ namespace Jajo.Cms.FubuMVC1.Features
 
         public virtual void Load()
         {
-            var filePath = Path.Combine(_fubuApplicationFiles.GetApplicationPath(), "/default.features");
+            var filePath = Path.Combine(_fubuApplicationFiles.GetApplicationPath(), "/global.features");
 
             features = GetFromFile(filePath);
         }
