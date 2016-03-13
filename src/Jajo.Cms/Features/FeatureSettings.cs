@@ -32,7 +32,7 @@ namespace Jajo.Cms.Features
             return true;
         }
 
-        public bool Exists(string feature)
+        public Feature Get(string feature)
         {
             var parts = new Queue<string>(feature.Split('/'));
             Feature currentFeature = null;
@@ -46,10 +46,10 @@ namespace Jajo.Cms.Features
                     : currentFeature.Children.FirstOrDefault(x => x.Name == currentPart);
 
                 if (currentFeature == null)
-                    return false;
+                    return null;
             }
 
-            return true;
+            return currentFeature;
         }
 
         public class Feature
