@@ -49,6 +49,7 @@
     <Compile Include="Localization\LocalizationTextParser.cs" />
     <Compile Include="Localization\IFindCurrentLocalizationNamespace.cs" />
     <Compile Include="Localization\ILocalizeText.cs" />
+    <Compile Include="Parsing\LiquidTextParser.cs" />
     <Compile Include="Rendering\JsonRenderInformation.cs" />
     <Compile Include="Rendering\ParseTextOptions.cs" />
     <Compile Include="Rendering\RenderJsonRenderInformation.cs" />
@@ -126,7 +127,7 @@
   </Target>
   -->
   <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v3.5' Or $(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2')">
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v3.5' Or $(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
       <ItemGroup>
         <Reference Include="BCrypt.Net">
           <HintPath>..\..\packages\BCrypt.Net\lib\net35\BCrypt.Net.dll</HintPath>
@@ -137,7 +138,36 @@
     </When>
   </Choose>
   <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2')">
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v3.5'">
+      <ItemGroup>
+        <Reference Include="DotLiquid">
+          <HintPath>..\..\packages\DotLiquid\lib\NET35\DotLiquid.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.0'">
+      <ItemGroup>
+        <Reference Include="DotLiquid">
+          <HintPath>..\..\packages\DotLiquid\lib\NET40\DotLiquid.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
+      <ItemGroup>
+        <Reference Include="DotLiquid">
+          <HintPath>..\..\packages\DotLiquid\lib\NET45\DotLiquid.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
       <ItemGroup>
         <Reference Include="EventStore.ClientAPI">
           <HintPath>..\..\packages\EventStore.Client\lib\net40\EventStore.ClientAPI.dll</HintPath>
@@ -148,7 +178,7 @@
     </When>
   </Choose>
   <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v3.5' Or $(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2')">
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v3.5' Or $(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
       <ItemGroup>
         <Reference Include="MarkdownSharp">
           <HintPath>..\..\packages\MarkdownSharp\lib\35\MarkdownSharp.dll</HintPath>
@@ -159,10 +189,10 @@
     </When>
   </Choose>
   <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETCore'">
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v2.0' Or $(TargetFrameworkVersion) == 'v3.0')">
       <ItemGroup>
         <Reference Include="Newtonsoft.Json">
-          <HintPath>..\..\packages\Newtonsoft.Json\lib\netcore45\Newtonsoft.Json.dll</HintPath>
+          <HintPath>..\..\packages\Newtonsoft.Json\lib\net20\Newtonsoft.Json.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -177,16 +207,7 @@
         </Reference>
       </ItemGroup>
     </When>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v2.0' Or $(TargetFrameworkVersion) == 'v3.0')">
-      <ItemGroup>
-        <Reference Include="Newtonsoft.Json">
-          <HintPath>..\..\packages\Newtonsoft.Json\lib\net20\Newtonsoft.Json.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0')">
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.0'">
       <ItemGroup>
         <Reference Include="Newtonsoft.Json">
           <HintPath>..\..\packages\Newtonsoft.Json\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -195,7 +216,7 @@
         </Reference>
       </ItemGroup>
     </When>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2')">
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
       <ItemGroup>
         <Reference Include="Newtonsoft.Json">
           <HintPath>..\..\packages\Newtonsoft.Json\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -204,10 +225,10 @@
         </Reference>
       </ItemGroup>
     </When>
-    <When Condition="($(TargetFrameworkIdentifier) == 'MonoAndroid') Or ($(TargetFrameworkIdentifier) == 'MonoTouch') Or ($(TargetFrameworkIdentifier) == 'Xamarin.iOS') Or ($(TargetFrameworkIdentifier) == 'Xamarin.Mac') Or ($(TargetFrameworkProfile) == 'Profile7') Or ($(TargetFrameworkProfile) == 'Profile44') Or ($(TargetFrameworkProfile) == 'Profile49') Or ($(TargetFrameworkProfile) == 'Profile78') Or ($(TargetFrameworkProfile) == 'Profile111') Or ($(TargetFrameworkProfile) == 'Profile151') Or ($(TargetFrameworkProfile) == 'Profile259')">
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETCore'">
       <ItemGroup>
         <Reference Include="Newtonsoft.Json">
-          <HintPath>..\..\packages\Newtonsoft.Json\lib\portable-net45+wp80+win8+wpa81+aspnetcore50\Newtonsoft.Json.dll</HintPath>
+          <HintPath>..\..\packages\Newtonsoft.Json\lib\netcore45\Newtonsoft.Json.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -222,9 +243,18 @@
         </Reference>
       </ItemGroup>
     </When>
+    <When Condition="($(TargetFrameworkIdentifier) == '.NETStandard' And ($(TargetFrameworkVersion) == 'v1.0' Or $(TargetFrameworkVersion) == 'v1.1' Or $(TargetFrameworkVersion) == 'v1.2' Or $(TargetFrameworkVersion) == 'v1.3' Or $(TargetFrameworkVersion) == 'v1.4' Or $(TargetFrameworkVersion) == 'v1.5' Or $(TargetFrameworkVersion) == 'v1.6')) Or ($(TargetFrameworkIdentifier) == '.NETCoreApp' And $(TargetFrameworkVersion) == 'v1.0') Or ($(TargetFrameworkIdentifier) == 'MonoAndroid') Or ($(TargetFrameworkIdentifier) == 'MonoTouch') Or ($(TargetFrameworkIdentifier) == 'Xamarin.iOS') Or ($(TargetFrameworkIdentifier) == 'Xamarin.Mac') Or ($(TargetFrameworkProfile) == 'Profile7') Or ($(TargetFrameworkProfile) == 'Profile44') Or ($(TargetFrameworkProfile) == 'Profile49') Or ($(TargetFrameworkProfile) == 'Profile78') Or ($(TargetFrameworkProfile) == 'Profile111') Or ($(TargetFrameworkProfile) == 'Profile151') Or ($(TargetFrameworkProfile) == 'Profile259')">
+      <ItemGroup>
+        <Reference Include="Newtonsoft.Json">
+          <HintPath>..\..\packages\Newtonsoft.Json\lib\portable-net45+wp80+win8+wpa81+aspnetcore50\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
   </Choose>
   <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2')">
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
       <ItemGroup>
         <Reference Include="StructureMap">
           <HintPath>..\..\packages\structuremap\lib\net40\StructureMap.dll</HintPath>
@@ -235,7 +265,7 @@
     </When>
   </Choose>
   <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2')">
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
       <ItemGroup>
         <Reference Include="UStack.Infrastructure">
           <HintPath>..\..\packages\UStack.Infrastructure\lib\net40\UStack.Infrastructure.dll</HintPath>
@@ -246,7 +276,7 @@
     </When>
   </Choose>
   <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2')">
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
       <ItemGroup>
         <Reference Include="UStack.RequestGraph">
           <HintPath>..\..\packages\UStack.RequestGraph\lib\net40\UStack.RequestGraph.dll</HintPath>

@@ -1,7 +1,7 @@
 NUGET
   remote: https://www.nuget.org/api/v2
-  specs:
     BCrypt.Net (0.1)
+    DotLiquid (1.8)
     EventStore.Client (3.6)
     Fixie (1.0.1)
     FluentValidation (6.2.1)
@@ -14,7 +14,6 @@ NUGET
     Spark (1.8.1)
     structuremap (2.6.4.1)
   remote: https://www.myget.org/F/jajo/api/v2
-  specs:
     UStack.Infrastructure (1.1.0.464)
       BCrypt.Net
       EventStore.Client
