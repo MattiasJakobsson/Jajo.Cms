@@ -10,3 +10,4 @@ dependencies
 	MarkdownSharp
 	Newtonsoft.Json
 	UStack.Infrastructure
+	DotLiquid
