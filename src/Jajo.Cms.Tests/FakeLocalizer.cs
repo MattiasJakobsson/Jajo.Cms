@@ -8,7 +8,7 @@ namespace Jajo.Cms.Tests
         public string Localize(string key, CultureInfo culture)
         {
             if (key == "test")
-                return "asd {replaceme} asd";
+                return "asd {{replaceme}} asd";
 
             return "";
         }
