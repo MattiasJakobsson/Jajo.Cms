@@ -1,32 +1,32 @@
 NUGET
   remote: https://www.nuget.org/api/v2
     BCrypt.Net (0.1)
-    DotLiquid (1.8)
-    EventStore.Client (3.8)
-    Fixie (1.0.1)
+    DotLiquid (2.0.55)
+    EventStore.Client (3.9)
+    Fixie (1.0.2)
     FluentValidation (6.2.1)
-    ImageProcessor (2.4.3)
+    ImageProcessor (2.4.4)
     MarkdownSharp (1.13)
     Newtonsoft.Json (6.0.8)
-    NLog (4.3.5)
-    RavenDB.Client (3.0.30143)
+    NLog (4.3.9)
+    RavenDB.Client (3.0.30155)
     Should (1.1.20)
     Spark (1.8.1)
     structuremap (2.6.4.1)
   remote: https://www.myget.org/F/jajo/api/v2
-    UStack.Infrastructure (1.1.0.470)
+    UStack.Infrastructure (1.1.0.474)
       BCrypt.Net
       EventStore.Client
       Newtonsoft.Json
       structuremap (2.6.4.1)
       UStack.RequestGraph
-    UStack.Infrastructure.RavenDB (1.1.0.470)
+    UStack.Infrastructure.RavenDB (1.1.0.474)
       RavenDB.Client
       structuremap (2.6.4.1)
       UStack.Infrastructure
-    UStack.Infrastructure.Web (1.1.0.470)
+    UStack.Infrastructure.Web (1.1.0.474)
       FluentValidation
       Spark
       UStack.Infrastructure.RavenDB
       UStack.RequestGraph
-    UStack.RequestGraph (1.1.0.470)
+    UStack.RequestGraph (1.1.0.474)
