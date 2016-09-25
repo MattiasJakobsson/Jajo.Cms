@@ -24,5 +24,10 @@ namespace Jajo.Cms.Tests
         {
             return new ReadOnlyDictionary<string, string>(new Dictionary<string, string>());
         }
+
+        public void AddMissing(IEnumerable<string> keys, CultureInfo culture)
+        {
+            
+        }
     }
 }

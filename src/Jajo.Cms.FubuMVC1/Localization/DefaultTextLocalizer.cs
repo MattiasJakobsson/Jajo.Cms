@@ -112,6 +112,11 @@ namespace Jajo.Cms.FubuMVC1.Localization
             return new ReadOnlyDictionary<string, string>(translations);
         }
 
+        public virtual void AddMissing(IEnumerable<string> keys, CultureInfo culture)
+        {
+            WriteMissing(keys, culture);
+        }
+
         protected virtual Tuple<string, bool> GetTranslation(string key, CultureInfo culture)
         {
             var translationKey = BuildKey(culture, key);
