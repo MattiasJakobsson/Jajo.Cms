@@ -103,7 +103,7 @@ namespace Jajo.Cms.FubuMVC1.Localization
             });
         }
 
-        public IReadOnlyDictionary<string, string> GetTranslations(CultureInfo culture, string theme)
+        public virtual IReadOnlyDictionary<string, string> GetTranslations(CultureInfo culture, string theme)
         {
             return new ReadOnlyDictionary<string, string>(Translations);
         }
