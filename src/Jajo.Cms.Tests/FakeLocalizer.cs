@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using Jajo.Cms.Localization;
 
@@ -16,6 +18,11 @@ namespace Jajo.Cms.Tests
         public void Load()
         {
 
+        }
+
+        public IReadOnlyDictionary<string, string> GetTranslations(CultureInfo culture, string theme)
+        {
+            return new ReadOnlyDictionary<string, string>(new Dictionary<string, string>());
         }
     }
 }

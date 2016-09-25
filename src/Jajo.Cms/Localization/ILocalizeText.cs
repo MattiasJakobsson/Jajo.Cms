@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 
 namespace Jajo.Cms.Localization
 {
@@ -6,5 +7,6 @@ namespace Jajo.Cms.Localization
     {
         string Localize(string key, CultureInfo culture);
         void Load();
+        IReadOnlyDictionary<string, string> GetTranslations(CultureInfo culture, string theme);
     }
 }

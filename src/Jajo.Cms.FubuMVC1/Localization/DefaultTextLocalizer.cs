@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -68,7 +69,7 @@ namespace Jajo.Cms.FubuMVC1.Localization
                 translationKey = keyParts.Last();
 
                 if (namespacePartsToUse.Any())
-                    translationKey = string.Format("{0}:{1}", string.Join(":", namespacePartsToUse), translationKey);
+                    translationKey = $"{string.Join(":", namespacePartsToUse)}:{translationKey}";
 
                 writeMissing = false;
             }
@@ -95,11 +96,16 @@ namespace Jajo.Cms.FubuMVC1.Localization
 
                 foreach (var item in items)
                 {
-                    var key = BuildKey(@group.Key, item.Item1);
+                    var key = BuildKey(group.Key, item.Item1);
 
                     Translations[key] = item.Item2;
                 }
             });
+        }
+
+        public IReadOnlyDictionary<string, string> GetTranslations(CultureInfo culture, string theme)
+        {
+            return new ReadOnlyDictionary<string, string>(Translations);
         }
 
         protected virtual Tuple<string, bool> GetTranslation(string key, CultureInfo culture)
@@ -131,7 +137,7 @@ namespace Jajo.Cms.FubuMVC1.Localization
             {
                 var missingDocument = GetMissingKeysDocument(missingFileLocation);
 
-                if (missingDocument.DocumentElement != null && missingDocument.DocumentElement.SelectSingleNode("{0}[@{1}='{2}']".ToFormat((object)"missing", (object)"key", (object)key)) != null)
+                if (missingDocument.DocumentElement?.SelectSingleNode("{0}[@{1}='{2}']".ToFormat((object)"missing", (object)"key", (object)key)) != null)
                     return;
 
                 missingDocument.DocumentElement.AddElement("missing").WithAtt("key", key).WithAtt("culture", culture.Name).InnerText = "";
@@ -167,10 +173,8 @@ namespace Jajo.Cms.FubuMVC1.Localization
         private static IEnumerable<Tuple<string, string>> LoadFrom(string file)
         {
             var document = file.XmlFromFileWithRoot("jajo-localization");
-            if (document.DocumentElement == null) 
-                yield break;
-            
-            var xmlNodeList = document.DocumentElement.SelectNodes(LeafElement);
+
+            var xmlNodeList = document.DocumentElement?.SelectNodes(LeafElement);
 
             if (xmlNodeList == null) 
                 yield break;
@@ -181,7 +185,7 @@ namespace Jajo.Cms.FubuMVC1.Localization
 
         private static string BuildKey(CultureInfo culture, string key)
         {
-            return string.Format("{0}-{1}", culture.Name.ToLower(), key);
+            return $"{culture.Name.ToLower()}-{key}";
         }
     }
 }
