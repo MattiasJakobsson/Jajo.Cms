@@ -105,7 +105,11 @@ namespace Jajo.Cms.FubuMVC1.Localization
 
         public virtual IReadOnlyDictionary<string, string> GetTranslations(CultureInfo culture, string theme)
         {
-            return new ReadOnlyDictionary<string, string>(Translations);
+            var translations = Translations
+                .Where(x => x.Key.StartsWith($"{culture.Name.ToLower()}-"))
+                .ToDictionary(x => x.Key.Substring($"{culture.Name.ToLower()}-".Length), x => x.Value);
+
+            return new ReadOnlyDictionary<string, string>(translations);
         }
 
         protected virtual Tuple<string, bool> GetTranslation(string key, CultureInfo culture)
