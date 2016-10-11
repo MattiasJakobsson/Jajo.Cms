@@ -5,7 +5,7 @@ NUGET
     EventStore.Client (3.9)
     Fixie (1.0.2)
     FluentValidation (6.2.1)
-    ImageProcessor (2.4.4)
+    ImageProcessor (2.4.5)
     MarkdownSharp (1.13)
     Microsoft.CSharp (4.0.1) - framework: >= netstandard10
       System.Collections (>= 4.0.11) - framework: dnxcore50, >= netstandard13
@@ -250,19 +250,19 @@ NUGET
       System.Threading (>= 4.0.11) - framework: dnxcore50, >= netstandard13
       System.Xml.ReaderWriter (>= 4.0.11) - framework: dnxcore50, netstandard10, >= netstandard13
   remote: https://www.myget.org/F/jajo/api/v2
-    UStack.Infrastructure (1.1.0.476)
+    UStack.Infrastructure (1.1.0.486)
       BCrypt.Net
       EventStore.Client
       Newtonsoft.Json
       structuremap (2.6.4.1)
       UStack.RequestGraph
-    UStack.Infrastructure.RavenDB (1.1.0.476)
+    UStack.Infrastructure.RavenDB (1.1.0.486)
       RavenDB.Client
       structuremap (2.6.4.1)
       UStack.Infrastructure
-    UStack.Infrastructure.Web (1.1.0.476)
+    UStack.Infrastructure.Web (1.1.0.486)
       FluentValidation
       Spark
       UStack.Infrastructure.RavenDB
       UStack.RequestGraph
-    UStack.RequestGraph (1.1.0.476)
+    UStack.RequestGraph (1.1.0.486)
