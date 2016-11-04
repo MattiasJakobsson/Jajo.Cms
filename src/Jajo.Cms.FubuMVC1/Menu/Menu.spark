@@ -1,6 +1,6 @@
 ﻿<viewdata model="Jajo.Cms.FubuMVC1.Menu.MenuEndpointQueryResult" />
 
-<ul class="nav navbar-collapse collapse navbar-collapse-primary">
+<ul class="nav navbar-collapse navbar-collapse-primary">
     <li each="var item in Model.Menu.MenuItems" class="active?{item.Active} dark-nav?{item.HasChildren()}">
         <span class="glow"></span>
         <a if="item.LinkTo != null" href="!{Urls.UrlFor(item.LinkTo)}">
