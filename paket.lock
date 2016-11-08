@@ -77,7 +77,7 @@ NUGET
       System.Threading.Tasks (>= 4.0.11) - framework: >= netstandard10
       System.Xml.ReaderWriter (>= 4.0.11) - framework: >= netstandard10
       System.Xml.XDocument (>= 4.0.11) - framework: >= netstandard10
-    NLog (4.3.10)
+    NLog (4.3.11)
     RavenDB.Client (3.5)
       Microsoft.CSharp (>= 4.0.1) - framework: >= netstandard13
       Microsoft.Extensions.Configuration (>= 1.0) - framework: >= netstandard13
@@ -827,19 +827,19 @@ NUGET
       System.Xml.ReaderWriter (>= 4.0.11) - framework: dnxcore50, netstandard10, >= netstandard13
       System.Xml.XmlDocument (>= 4.0.1) - framework: dnxcore50, >= netstandard13
   remote: https://www.myget.org/F/jajo/api/v2
-    UStack.Infrastructure (1.1.0.492)
+    UStack.Infrastructure (1.1.0.493)
       BCrypt.Net
       EventStore.Client
       Newtonsoft.Json
       structuremap (2.6.4.1)
       UStack.RequestGraph
-    UStack.Infrastructure.RavenDB (1.1.0.492)
+    UStack.Infrastructure.RavenDB (1.1.0.493)
       RavenDB.Client
       structuremap (2.6.4.1)
       UStack.Infrastructure
-    UStack.Infrastructure.Web (1.1.0.492)
+    UStack.Infrastructure.Web (1.1.0.493)
       FluentValidation
       Spark
       UStack.Infrastructure.RavenDB
       UStack.RequestGraph
-    UStack.RequestGraph (1.1.0.492)
+    UStack.RequestGraph (1.1.0.493)
