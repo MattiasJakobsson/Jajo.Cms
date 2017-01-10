@@ -44,7 +44,7 @@ namespace Jajo.Cms.Localization
                     .Value
                     .Split(',')
                     .Where(x => !string.IsNullOrEmpty(x))
-                    .Select(x => x.Split(':'))
+                    .Select(x => x.Split(new [] {':'}, 2))
                     .Where(x => x.Length > 1 && !string.IsNullOrEmpty(x[0]) && !string.IsNullOrEmpty(x[1]))
                     .ToList();
 
@@ -62,7 +62,7 @@ namespace Jajo.Cms.Localization
         protected override IEnumerable<Regex> GetRegexes()
         {
             yield return new Regex(@"\%\[(?<resource>.[a-z&auml;&aring;&ouml;A-Z&Auml;&Aring;&Ouml;0-9_\:-]*)\]\%", RegexOptions.Compiled);
-            yield return new Regex(@"\%\[(?<resource>.[a-z&auml;&aring;&ouml;A-Z&Auml;&Aring;&Ouml;0-9_\:-]*) replacements\=((?<replacements>[a-z&auml;&aring;&ouml;A-Z&Auml;&Aring;&Ouml;0-9\:\,]*))\]\%", RegexOptions.Compiled);
+            yield return new Regex(@"\%\[(?<resource>.[a-z&auml;&aring;&ouml;A-Z&Auml;&Aring;&Ouml;0-9_\:-]*) replacements\=((?<replacements>[a-z&auml;&aring;&ouml;A-Z&Auml;&Aring;&Ouml;0-9\:\,\/]*))\]\%", RegexOptions.Compiled);
         }
     }
 }
