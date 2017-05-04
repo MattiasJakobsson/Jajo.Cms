@@ -19,11 +19,11 @@ namespace Jajo.Cms.FubuMVC1.Files
 
         public string Upload(UploadFile file)
         {
-            var name = string.Format("{0}/{1}", file.Category, file.Name);
+            var name = $"{file.Category}/{file.Name}";
 
             var basePath = ConfigurationManager.AppSettings["Files.BasePath"];
 
-            var filePath = string.Format("{0}/{1}/{2}", _fubuApplicationFiles.GetApplicationPath(), basePath, name);
+            var filePath = $"{_fubuApplicationFiles.GetApplicationPath()}/{basePath}/{name}";
 
             file.Data.Position = 0;
 
@@ -42,48 +42,52 @@ namespace Jajo.Cms.FubuMVC1.Files
         {
             var basePath = ConfigurationManager.AppSettings["Files.BasePath"];
 
-            var original = string.Format("{0}/{1}/{2}", _fubuApplicationFiles.GetApplicationPath(), basePath, file);
+            var original = $"{_fubuApplicationFiles.GetApplicationPath()}/{basePath}/{file}";
 
-            if (transformer != null)
+            if (transformer == null)
+                return $"{basePath}/{file}";
+
+            var settings = transformer.GetTransformationSettings().ToList();
+
+            var maxWidth = settings.OfType<MaxWidthTransformationSetting>().Select(x => x.MaxWidth).FirstOrDefault();
+            var maxHeight = settings.OfType<MaxHeightTransformationSetting>().Select(x => x.MaxHeight).FirstOrDefault();
+
+            var fileName = file;
+
+            var extension = Path.GetExtension(file);
+
+            if (!string.IsNullOrEmpty(extension))
+                fileName = fileName.Replace(extension, "");
+
+            if (maxWidth > 0)
+                fileName = string.Concat(fileName, maxWidth, "x");
+
+            if (maxHeight > 0)
+                fileName = string.Concat(fileName, maxHeight);
+
+            var filePath =
+                $"{_fubuApplicationFiles.GetApplicationPath()}/{basePath}/{fileName}{Path.GetExtension(file)}";
+
+            if (File.Exists(filePath))
+                return $"{basePath}/{fileName}{Path.GetExtension(file)}";
+
+            if (!File.Exists(original))
+                return $"{basePath}/{fileName}{Path.GetExtension(file)}";
+
+            using (var fileOnDisk = File.Create(filePath))
             {
-                var settings = transformer.GetTransformationSettings().ToList();
-
-                var maxWidth = settings.OfType<MaxWidthTransformationSetting>().Select(x => x.MaxWidth).FirstOrDefault();
-                var maxHeight = settings.OfType<MaxHeightTransformationSetting>().Select(x => x.MaxHeight).FirstOrDefault();
-
-                var fileName = file.Replace(Path.GetExtension(file), "");
-
-                if (maxWidth > 0)
-                    fileName = string.Concat(fileName, maxWidth, "x");
-
-                if (maxHeight > 0)
-                    fileName = string.Concat(fileName, maxHeight);
-
-                var filePath = string.Format("{0}/{1}/{2}{3}", _fubuApplicationFiles.GetApplicationPath(), basePath, fileName, Path.GetExtension(file));
-
-                if (File.Exists(filePath))
-                    return string.Format("{0}/{1}{2}", basePath, fileName, Path.GetExtension(file));
-
-                if (File.Exists(original))
-                {
-                    using (var fileOnDisk = File.Create(filePath))
-                    {
-                        Transform(File.Open(original, FileMode.Open), new Size(maxWidth, maxHeight)).CopyTo(fileOnDisk);
-                        fileOnDisk.Flush();
-                    }
-                }
-
-                return string.Format("{0}/{1}{2}", basePath, fileName, Path.GetExtension(file));
+                Transform(File.Open(original, FileMode.Open), new Size(maxWidth, maxHeight)).CopyTo(fileOnDisk);
+                fileOnDisk.Flush();
             }
 
-            return string.Format("{0}/{1}", basePath, file);
+            return $"{basePath}/{fileName}{Path.GetExtension(file)}";
         }
 
         public bool Exists(string file)
         {
             var basePath = ConfigurationManager.AppSettings["Files.BasePath"];
 
-            var path = string.Format("{0}/{1}/{2}", _fubuApplicationFiles.GetApplicationPath(), basePath, file);
+            var path = $"{_fubuApplicationFiles.GetApplicationPath()}/{basePath}/{file}";
 
             return File.Exists(path);
         }
