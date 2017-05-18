@@ -43,6 +43,8 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Areas\AreasContext.cs" />
+    <Compile Include="Areas\AreasTextParser.cs" />
     <Compile Include="Cache.cs" />
     <Compile Include="Features\FeatureSettings.cs" />
     <Compile Include="Localization\ILocalizationVisitor.cs" />
